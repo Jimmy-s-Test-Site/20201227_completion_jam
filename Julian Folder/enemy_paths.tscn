@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Abdullah Folder/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Julian Folder/Enemies/N/N.tscn" type="PackedScene" id=2]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array(  )
+}
+
+[node name="enemy_paths" type="Node2D"]
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource( 1 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 158, 132 )
+
+[node name="N" parent="Player" instance=ExtResource( 2 )]
+position = Vector2( 408, 188 )
