@@ -41,7 +41,9 @@ func _physics_process(delta : float) -> void:
 	self.death_manager()
 
 func movement_manager(delta : float) -> void:
-	if self.should_follow_path(): self.following_path = false
+	if self.should_follow_path():
+		self.emit_signal("in_game")
+		self.following_path = false
 	
 	if self.following_path: self.follow_path(delta)
 	else: self.move(delta)

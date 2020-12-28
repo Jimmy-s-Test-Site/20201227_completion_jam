@@ -5,7 +5,7 @@ signal attack
 
 export (NodePath) var path2D
 
-export (int)   var health : int = 1
+export (int)   var health : int = 2
 export (int)   var attack : int = 1
 export (int)   var movement_speed : int = 3500
 export (int)   var path_movement_speed : int = 3500
@@ -26,6 +26,8 @@ var path_points : PoolVector2Array
 var prev_path_index : int = 0
 var curr_path_index : int = 0
 
+var R_positions : PoolVector2Array
+
 func player_exists() -> bool: return self.Player != null
 
 func _ready() -> void:
@@ -41,7 +43,9 @@ func _physics_process(delta : float) -> void:
 	self.death_manager()
 
 func movement_manager(delta : float) -> void:
-	if self.should_follow_path(): self.following_path = false
+	if self.should_follow_path():
+		self.emit_signal("in_game")
+		self.following_path = false
 	
 	if self.following_path: self.follow_path(delta)
 	else: self.move(delta)
@@ -64,6 +68,10 @@ func follow_path(delta : float) -> void:
 	move_and_slide(movement)
 
 func move(delta : float) -> void:
+	var Rs_and_player_mean_position := self.Player.global_position
+	for i in self.R_positions.size(): Rs_and_player_mean_position += self.R_positions[i]
+	Rs_and_player_mean_position /= 1 + self.R_positions.size()
+	
 	var objective := self.Player.global_position if   \
 		self.player_exists() and self.player_is_alive \
 		else self.screen_center
