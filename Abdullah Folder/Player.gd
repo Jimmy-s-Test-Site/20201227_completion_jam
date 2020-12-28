@@ -1,35 +1,31 @@
 extends KinematicBody2D
 
 signal playerDeath
+signal attack
 signal hit
 signal newHp
 
+var rng = RandomNumberGenerator.new()
 
 export (int) var speed = 8000
 export (int) var rotationSpeed = 5
 var min_max = [5, 15]
 
-
 var dead = false
-
 var attackReady = true
+var receivingAttack = false
 
 export (int) var maxHealth = 10
 var healthRemaining = maxHealth
 var isHealAvailable = true;
 
-
-
-
-var rng = RandomNumberGenerator.new()
-
 var input = {
-	"up" : false,
-	"down" : false,
-	"left" : false,
-	"right" : false,
+	"up"     : false,
+	"down"   : false,
+	"left"   : false,
+	"right"  : false,
 	"attack" : false,
-	"heal" : false
+	"heal"   : false
  }
 
 var motion = Vector2()
@@ -81,7 +77,6 @@ func healing():
 
 
 func attack():
-	
 	if self.input.attack:
 		$AttackRange.disabled = false
 		#emit_signal("hit")
@@ -90,22 +85,32 @@ func attack():
 	
 	
 
-
-func damageReceived():
+func receivedDamage():
 	for i in get_slide_count():
 		var collision = get_slide_collision(i)
-		if ["N", "R", "C"].has(collision.collider.name):
-			match collision.collider.name:
-				"N":healthRemaining -= 1
-				"R":healthRemaining -= 1
-				"C":healthRemaining -= 4
-			if healthRemaining < 0:
-				emit_signal("playerDeath")
-				healthRemaining = 0
-				dead = true
-			emit_signal("newHp",healthRemaining)
+		
+		if (
+			["N", "R", "C"].has(collision.collider.name) or \
+			["N", "R", "C"].has(collision.collider.get_parent().name)
+		):
+			# self.healthRemaining -= collision.collider.attack
+			
+			collision.collider.connect("attack", self, "on_enemy_attack")
+			
+			if self.receivingAttack:
+				match collision.collider.name:
+					"N": self.healthRemaining -= 1
+					"R": self.healthRemaining -= 1
+					"C": self.healthRemaining -= 4
+				
+				if healthRemaining < 0:
+					emit_signal("playerDeath")
+					healthRemaining = 0
+					dead = true
+				emit_signal("newHp",healthRemaining)
 	
-
+func on_enemy_attack():
+	self.receivingAttack = true
 
 func animationManager():
 	pass
@@ -119,7 +124,7 @@ func _ready():
 	rng.randomize()
 	$Timer.wait_time = 0.0
 	$Timer.start()
-	$AttackTimer.wait_time = 1
+	$AttackTimer.wait_time = 1.0
 	$AttackTimer.start()
 
 
