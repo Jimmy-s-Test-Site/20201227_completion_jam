@@ -35,6 +35,7 @@ func _physics_process(delta):
 		getInput()
 		inputToMotion(delta)
 		healing()
+		attack()
 	
 	
 	
@@ -80,8 +81,8 @@ func attack():
 	if self.input.attack:
 		$AttackRange.disabled = false
 		#emit_signal("hit")
+		$AttackTimer.wait_time = 0.5
 		$AttackTimer.start()
-		$AttackRange.disabled = true
 	
 	
 
@@ -124,11 +125,15 @@ func _ready():
 	rng.randomize()
 	$Timer.wait_time = 0.0
 	$Timer.start()
-	$AttackTimer.wait_time = 1.0
+	$AttackTimer.wait_time = 0.5
 	$AttackTimer.start()
 
 
 func _on_Timer_timeout(): self.isHealAvailable = true
 
 
-func _on_AttackTimer_timeout(): attackReady = true
+
+
+func _on_AttackTimer_timeout():
+	$AttackRange.disabled = true
+	attackReady = true
