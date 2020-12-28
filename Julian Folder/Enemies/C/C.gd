@@ -5,8 +5,8 @@ signal attack
 
 export (NodePath) var path2D
 
-export (int)   var health : int = 4
-export (int)   var attack : int = 4
+export (int)   var health : int = 1
+export (int)   var attack : int = 1
 export (int)   var movement_speed : int = 3500
 export (int)   var path_movement_speed : int = 3500
 
@@ -31,24 +31,14 @@ func player_exists() -> bool: return self.Player != null
 func _ready() -> void:
 	if self.path2D:
 		self.path_points = self.get_node(self.path2D).curve.get_baked_points()
-	
-	$AttackTimer.start(self.attack_cooldown_time)
 
 func _physics_process(delta : float) -> void:
 	self.movement_manager(delta)
 	self.receive_damage()
-	self.attack_manager()
 	self.death_manager()
 
 func movement_manager(delta : float) -> void:
-	if self.should_follow_path(): self.following_path = false
-	
-	if self.following_path: self.follow_path(delta)
-	else: self.move(delta)
-
-func should_follow_path() -> bool:
-	var on_last_index := self.prev_path_index != 0 and self.curr_path_index == 0
-	return self.following_path and on_last_index
+	self.follow_path(delta)
 
 func follow_path(delta : float) -> void:
 	if not self.path2D: return
@@ -63,21 +53,6 @@ func follow_path(delta : float) -> void:
 	var movement = self.position.direction_to(target).normalized() * path_movement_speed * delta
 	move_and_slide(movement)
 
-func move(delta : float) -> void:
-	var objective := self.Player.global_position if   \
-		self.player_exists() and self.player_is_alive \
-		else self.screen_center
-	
-	# TODO:
-	# make AI only move forwards, and rotate at set speed
-	
-	self.rotation = self.global_position.direction_to(objective).angle() + (PI/2)
-	
-	var movement_direction = self.global_position.direction_to(objective)
-	var movement = movement_direction * self.movement_speed * delta
-	
-	self.move_and_slide(movement)
-
 func receive_damage() -> void:
 	for i in get_slide_count():
 		var collision = get_slide_collision(i)
@@ -89,14 +64,10 @@ func receive_damage() -> void:
 				self.health -= 1
 				if self.health < 0: self.health = 0
 
-func attack_manager() -> void:
-	if self.attacking and $AttackTimer.time_left == 0:
-		self.emit_signal("attack")
-		$AttackTimer.start(self.attack_cooldown_time)
-		self.attacking = false
-
 func death_manager() -> void:
-	if self.health == 0:
+	var on_last_index := self.prev_path_index != 0 and self.curr_path_index == 0
+	
+	if self.health == 0 or on_last_index:
 		self.queue_free()
 
 func _on_AttackArea_body_entered(body) -> void:

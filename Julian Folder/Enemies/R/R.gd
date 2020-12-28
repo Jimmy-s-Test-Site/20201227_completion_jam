@@ -5,7 +5,7 @@ signal attack
 
 export (NodePath) var path2D
 
-export (int)   var health : int = 2
+export (int)   var health : int = 1
 export (int)   var attack : int = 1
 export (int)   var movement_speed : int = 3500
 export (int)   var path_movement_speed : int = 3500
