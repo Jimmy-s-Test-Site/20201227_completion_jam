@@ -126,5 +126,4 @@ func _ready():
 func _on_Timer_timeout(): self.isHealAvailable = true
 
 
-
 func _on_AttackTimer_timeout(): attackReady = true
