@@ -1,8 +1,11 @@
 extends KinematicBody2D
 
+
+#putting a comment for fun
+
 signal playerDeath
 signal attack
-signal hit
+#signal hit
 signal newHp
 
 var rng = RandomNumberGenerator.new()
@@ -79,7 +82,7 @@ func healing():
 
 func attack():
 	if self.input.attack:
-		$AttackRange.disabled = false
+		$Area2D/AttackRange.disabled = false
 		#emit_signal("hit")
 		$AttackTimer.wait_time = 0.5
 		$AttackTimer.start()
@@ -123,7 +126,7 @@ func animationManager():
 
 func _ready():
 	rng.randomize()
-	$Timer.wait_time = 0.0
+	$Timer.wait_time = 0.1
 	$Timer.start()
 	$AttackTimer.wait_time = 0.5
 	$AttackTimer.start()
@@ -135,9 +138,9 @@ func _on_Timer_timeout(): self.isHealAvailable = true
 
 
 func _on_AttackTimer_timeout():
-	$AttackRange.disabled = true
+	$Area2D/AttackRange.disabled = true
 	attackReady = true
 
 
-func _on_Area2D_body_entered(body):
+func _on_Area2D_body_entered(_body):
 	emit_signal("attack")
