@@ -137,3 +137,7 @@ func _on_Timer_timeout(): self.isHealAvailable = true
 func _on_AttackTimer_timeout():
 	$AttackRange.disabled = true
 	attackReady = true
+
+
+func _on_Area2D_body_entered(body):
+	emit_signal("attack")
