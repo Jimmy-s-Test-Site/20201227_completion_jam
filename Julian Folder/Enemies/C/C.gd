@@ -5,17 +5,13 @@ signal attack
 
 export (NodePath) var path2D
 
-export (int)   var health : int = 1
-export (int)   var attack : int = 1
-export (int)   var movement_speed : int = 3500
+export (int)   var health : int = 4
+export (int)   var attack : int = 4
 export (int)   var path_movement_speed : int = 3500
 
-export (float) var rotation_speed
-export (float) var attack_cooldown_time : float = 1.0
+onready var total_health = self.health
 
 var attacking = false
-
-var screen_center := Vector2.ZERO
 
 var Player : KinematicBody2D
 var player_is_alive := true
@@ -63,6 +59,8 @@ func receive_damage() -> void:
 			if self.player_attacked:
 				self.health -= 1
 				if self.health < 0: self.health = 0
+	
+	# TODO: set speed to (health / total health) * speed
 
 func death_manager() -> void:
 	var on_last_index := self.prev_path_index != 0 and self.curr_path_index == 0
