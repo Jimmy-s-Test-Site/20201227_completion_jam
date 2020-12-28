@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 signal playerDeath
-signal killedEnemy
+signal hit
 signal newHp
 
 
@@ -12,6 +12,7 @@ var min_max = [5, 15]
 
 var dead = false
 
+var attackReady = true
 
 export (int) var maxHealth = 10
 var healthRemaining = maxHealth
@@ -80,7 +81,14 @@ func healing():
 
 
 func attack():
-	pass
+	
+	if self.input.attack:
+		$AttackRange.disabled = false
+		#emit_signal("hit")
+		$AttackTimer.start()
+		$AttackRange.disabled = true
+	
+	
 
 
 func damageReceived():
@@ -111,6 +119,12 @@ func _ready():
 	rng.randomize()
 	$Timer.wait_time = 0.0
 	$Timer.start()
+	$AttackTimer.wait_time = 1
+	$AttackTimer.start()
 
 
 func _on_Timer_timeout(): self.isHealAvailable = true
+
+
+
+func _on_AttackTimer_timeout(): attackReady = true
