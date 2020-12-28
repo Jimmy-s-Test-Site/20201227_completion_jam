@@ -1,3 +1,75 @@
-[gd_scene format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Abdullah Folder/Tiles and Art/RoadTile.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Abdullah Folder/Tiles and Art/ParkingLotTile.tscn" type="PackedScene" id=2]
 
 [node name="Enviroment" type="Node2D"]
+position = Vector2( -3188, 89 )
+
+[node name="Roads" type="Node2D" parent="."]
+
+[node name="RoadTile" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 60, 783 )
+
+[node name="RoadTile2" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 429, 783 )
+
+[node name="RoadTile3" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 798, 783 )
+
+[node name="RoadTile4" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 34, -501 )
+
+[node name="RoadTile5" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 403, -501 )
+
+[node name="RoadTile6" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 772, -501 )
+
+[node name="RoadTile7" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 5645, -488 )
+
+[node name="RoadTile8" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 6014, -488 )
+
+[node name="RoadTile9" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 6383, -488 )
+
+[node name="RoadTile10" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 5713, 748 )
+
+[node name="RoadTile11" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 6082, 748 )
+
+[node name="RoadTile12" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 6451, 748 )
+
+[node name="RoadTile13" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 2347, 2679 )
+rotation = 1.5708
+
+[node name="RoadTile14" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 2347, 2310 )
+rotation = 1.57079
+
+[node name="RoadTile15" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 2347, 3048 )
+rotation = 1.5708
+
+[node name="RoadTile16" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 4904, 2689 )
+rotation = 1.5708
+
+[node name="RoadTile17" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 4904, 2320 )
+rotation = 1.57079
+
+[node name="RoadTile18" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 4904, 3058 )
+rotation = 1.5708
+
+[node name="ParkingLotTile" parent="." instance=ExtResource( 2 )]
+position = Vector2( 2517, 274 )
+
+[node name="ParkingLotTile" parent="ParkingLotTile" instance=ExtResource( 2 )]
+position = Vector2( 21, 1299 )
