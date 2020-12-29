@@ -17,6 +17,7 @@ var min_max = [5, 15]
 var dead = false
 var attackReady = true
 var receivingAttack = false
+var animationIsFinished = true
 
 export (int) var maxHealth = 10
 var healthRemaining = maxHealth
@@ -37,8 +38,9 @@ func _physics_process(delta):
 	if not dead:
 		getInput()
 		inputToMotion(delta)
-		healing()
+		var healed = healing()
 		attack()
+		animationManager(healed)
 	
 	
 	
@@ -64,9 +66,9 @@ func inputToMotion(delta:float) -> void:
 
 
 
-func healing():
+func healing() -> bool:
 	if self.input.heal and self.isHealAvailable:
-		print("yes heal")
+		#print("yes heal")
 		self.healthRemaining += 4
 		
 		if self.healthRemaining > self.maxHealth: 
@@ -75,6 +77,8 @@ func healing():
 		self.isHealAvailable = false
 		$Timer.wait_time = rng.randi_range(self.min_max[0],self.min_max[1])
 		$Timer.start()
+		return true
+	return false
 
 
 
@@ -111,13 +115,17 @@ func receivedDamage():
 					emit_signal("playerDeath")
 					healthRemaining = 0
 					dead = true
+					$deadSprite.visible = true
 				emit_signal("newHp",healthRemaining)
 	
 func on_enemy_attack():
 	self.receivingAttack = true
 
-func animationManager():
-	pass
+func animationManager(healed:bool):
+	if self.input.attack : $AnimationPlayer.play("Attack")
+	elif self.input.heal and healed : $AnimationPlayer.play("Heal")
+	elif self.input.up or self.input.down or self.input.left or self.input.right:
+		$AnimationPlayer.play("Walking")
 
 
 
@@ -144,3 +152,7 @@ func _on_AttackTimer_timeout():
 
 func _on_Area2D_body_entered(_body):
 	emit_signal("attack")
+
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	self.animationIsFinished = true
