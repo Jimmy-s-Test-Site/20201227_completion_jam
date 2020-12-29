@@ -1,6 +1,6 @@
 extends Control
 
-export (NodePath) var Game
+var Game
 
 export (bool)       var can_heal : bool
 export (int, 0, 10) var health : int

@@ -1,16 +1,17 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Abdullah Folder/Player.gd" type="Script" id=1]
 [ext_resource path="res://Abdullah Folder/Tiles and Art/CharacterSprite.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 6.01209, 3.26493 )
+extents = Vector2( 6, 3.5 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 5.96926, 2.77694 )
+extents = Vector2( 6, 4.5 )
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "Attack"
+length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("aliveSprite:frame")
 tracks/0/interp = 1
@@ -18,13 +19,13 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 8, 9, 10, 0 ]
+"values": [ 8, 9, 10 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=4]
 resource_name = "Heal"
 tracks/0/type = "value"
 tracks/0/path = NodePath("aliveSprite:frame")
@@ -40,8 +41,8 @@ tracks/0/keys = {
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("aliveSprite:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
+tracks/1/interp = 2
+tracks/1/loop_wrap = false
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
@@ -66,9 +67,9 @@ tracks/0/keys = {
 "values": [ 16 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "Walking"
-length = 1.5
+[sub_resource type="Animation" id=6]
+length = 0.6
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("aliveSprite:frame")
 tracks/0/interp = 1
@@ -76,31 +77,67 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 4, 2, 3, 4, 5, 6, 7, 0 ]
+"values": [ 4, 3, 2, 4, 5, 6 ]
 }
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "Attack"
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "Heal"
+
+[sub_resource type="AnimationNodeAnimation" id=9]
+animation = "Idle"
+
+[sub_resource type="AnimationNodeAnimation" id=10]
+animation = "Walking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=11]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=12]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=14]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+
+[sub_resource type="AnimationNodeStateMachine" id=17]
+states/Attack/node = SubResource( 7 )
+states/Attack/position = Vector2( 399, 49 )
+states/Heal/node = SubResource( 8 )
+states/Heal/position = Vector2( 591, 167 )
+states/Idle/node = SubResource( 9 )
+states/Idle/position = Vector2( 591, 49 )
+states/Walking/node = SubResource( 10 )
+states/Walking/position = Vector2( 801, 49 )
+transitions = [ "Idle", "Attack", SubResource( 11 ), "Idle", "Walking", SubResource( 12 ), "Idle", "Heal", SubResource( 13 ), "Heal", "Idle", SubResource( 14 ), "Attack", "Idle", SubResource( 15 ), "Walking", "Idle", SubResource( 16 ) ]
+start_node = "Idle"
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=18]
 
 [node name="Player" type="KinematicBody2D"]
-position = Vector2( 0, -4 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="aliveSprite" type="Sprite" parent="."]
-position = Vector2( 1.627, 0 )
+position = Vector2( -6, -9.5 )
 texture = ExtResource( 2 )
+centered = false
 vframes = 3
 hframes = 8
 frame = 4
-region_enabled = true
 region_rect = Rect2( 0, 0, 128, 40 )
 
 [node name="PlayerBody" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2( -2.103, 2.192 )
+position = Vector2( 0, -1.5 )
 shape = SubResource( 1 )
 
 [node name="Timer" type="Timer" parent="."]
@@ -110,16 +147,10 @@ shape = SubResource( 1 )
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="AttackRange" type="CollisionShape2D" parent="Area2D"]
-position = Vector2( 0.818, -3.821 )
+visible = false
+position = Vector2( 4, -5 )
 shape = SubResource( 2 )
 disabled = true
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-playback_speed = 0.25
-anims/Attack = SubResource( 4 )
-anims/Heal = SubResource( 6 )
-anims/Idle = SubResource( 5 )
-anims/Walking = SubResource( 3 )
 
 [node name="deadSprite" type="Sprite" parent="."]
 visible = false
@@ -128,6 +159,18 @@ texture = ExtResource( 2 )
 flip_h = true
 region_enabled = true
 region_rect = Rect2( 0, 42, 17, 17 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Attack = SubResource( 3 )
+anims/Heal = SubResource( 4 )
+anims/Idle = SubResource( 5 )
+anims/Walking = SubResource( 6 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 17 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource( 18 )
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

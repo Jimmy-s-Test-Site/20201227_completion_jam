@@ -2,10 +2,10 @@
 
 [ext_resource path="res://Abdullah Folder/Tiles and Art/road_art_fixed.png" type="Texture" id=1]
 
-
 [node name="BlackTile" type="Node2D"]
 
 [node name="road_art" type="Sprite" parent="."]
+self_modulate = Color( 0.121569, 0.121569, 0.121569, 1 )
 texture = ExtResource( 1 )
 centered = false
 region_enabled = true
