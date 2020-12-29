@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Abdullah Folder/Tiles and Art/RoadTile.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Abdullah Folder/Tiles and Art/ParkingAreaBigger.tscn" type="PackedScene" id=2]
@@ -11,6 +11,8 @@
 [ext_resource path="res://Abdullah Folder/Tiles and Art/grass2.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Abdullah Folder/Tiles and Art/grass4.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Abdullah Folder/Tiles and Art/grass3.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Abdullah Folder/Tiles and Art/ParkingLotTile.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Abdullah Folder/Tiles and Art/Crosswalk.tscn" type="PackedScene" id=13]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 448, 10 )
@@ -21,7 +23,7 @@ extents = Vector2( 10, 369 )
 [node name="Enviroment" type="Node2D"]
 
 [node name="Background Color" parent="." instance=ExtResource( 6 )]
-position = Vector2( -594, -668 )
+position = Vector2( -673, -668 )
 scale = Vector2( 100, 100 )
 
 [node name="Roads" type="Node2D" parent="."]
@@ -135,6 +137,79 @@ position = Vector2( 610, 405 )
 
 [node name="ParkingAreaBigger8" parent="Parking Spaces" instance=ExtResource( 2 )]
 position = Vector2( 694, 405 )
+
+[node name="ParkingSpaceTile" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 242, 556 )
+rotation = 3.14159
+
+[node name="ParkingSpaceTile2" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 200, 556 )
+rotation = -3.14159
+
+[node name="ParkingSpaceTile11" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 182, 58 )
+
+[node name="ParkingSpaceTile12" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 140, 58 )
+
+[node name="ParkingSpaceTile3" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 497, 556 )
+rotation = 3.14159
+
+[node name="ParkingSpaceTile4" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 455, 556 )
+rotation = -3.14159
+
+[node name="ParkingSpaceTile5" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 645, 556 )
+rotation = 3.14159
+
+[node name="ParkingSpaceTile6" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 603, 556 )
+rotation = -3.14159
+
+[node name="ParkingSpaceTile9" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 897, 556 )
+rotation = 3.14159
+
+[node name="ParkingSpaceTile10" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 855, 556 )
+rotation = -3.14159
+
+[node name="ParkingSpaceTile18" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 835, 58 )
+
+[node name="ParkingSpaceTile19" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 793, 58 )
+
+[node name="ParkingSpaceTile7" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 561, 556 )
+rotation = 3.14159
+
+[node name="ParkingSpaceTile8" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 519, 556 )
+rotation = -3.14159
+
+[node name="ParkingSpaceTile13" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 415, 58 )
+
+[node name="ParkingSpaceTile20" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 415, 58 )
+
+[node name="ParkingSpaceTile14" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 583, 58 )
+
+[node name="ParkingSpaceTile15" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 541, 58 )
+
+[node name="ParkingSpaceTile16" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 499, 58 )
+
+[node name="ParkingSpaceTile17" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 457, 58 )
+
+[node name="ParkingSpaceTile21" parent="Parking Spaces" instance=ExtResource( 12 )]
+position = Vector2( 394, 58 )
 
 [node name="Grass Node" type="Node2D" parent="."]
 
@@ -4759,7 +4834,7 @@ position = Vector2( 1054, 500 )
 position = Vector2( 1044, 500 )
 
 [node name="grass1052" parent="Grass Node" instance=ExtResource( 9 )]
-position = Vector2( 1064, 500 )
+position = Vector2( 1014, 490 )
 
 [node name="grass1053" parent="Grass Node" instance=ExtResource( 9 )]
 position = Vector2( 1024, 500 )
@@ -4824,27 +4899,6 @@ position = Vector2( 973, 540 )
 [node name="grass1016" parent="Grass Node" instance=ExtResource( 11 )]
 position = Vector2( 973, 550 )
 
-[node name="grass1145" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1054, 320 )
-
-[node name="grass1146" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1064, 320 )
-
-[node name="grass1147" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1074, 320 )
-
-[node name="grass1148" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1034, 320 )
-
-[node name="grass1149" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1044, 320 )
-
-[node name="grass1150" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1014, 320 )
-
-[node name="grass1151" parent="Grass Node" instance=ExtResource( 9 )]
-position = Vector2( 1024, 320 )
-
 [node name="grass1152" parent="Grass Node" instance=ExtResource( 11 )]
 position = Vector2( 993, 472 )
 
@@ -4853,27 +4907,6 @@ position = Vector2( 984, 472 )
 
 [node name="grass1154" parent="Grass Node" instance=ExtResource( 11 )]
 position = Vector2( 984, 482 )
-
-[node name="grass1155" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1069, 311 )
-
-[node name="grass1156" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1079, 311 )
-
-[node name="grass1157" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1089, 311 )
-
-[node name="grass1158" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1049, 311 )
-
-[node name="grass1159" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1059, 311 )
-
-[node name="grass1160" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1029, 311 )
-
-[node name="grass1161" parent="Grass Node" instance=ExtResource( 9 )]
-position = Vector2( 1039, 311 )
 
 [node name="grass1162" parent="Grass Node" instance=ExtResource( 11 )]
 position = Vector2( 1008, 463 )
@@ -4893,27 +4926,6 @@ position = Vector2( 984, 467 )
 [node name="grass1164" parent="Grass Node" instance=ExtResource( 11 )]
 position = Vector2( 999, 473 )
 
-[node name="grass1165" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1062, 301 )
-
-[node name="grass1166" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1072, 301 )
-
-[node name="grass1167" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1082, 301 )
-
-[node name="grass1168" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1042, 301 )
-
-[node name="grass1169" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1052, 301 )
-
-[node name="grass1170" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1022, 301 )
-
-[node name="grass1171" parent="Grass Node" instance=ExtResource( 9 )]
-position = Vector2( 1032, 301 )
-
 [node name="grass1172" parent="Grass Node" instance=ExtResource( 11 )]
 position = Vector2( 1001, 453 )
 
@@ -4923,27 +4935,6 @@ position = Vector2( 992, 453 )
 [node name="grass1174" parent="Grass Node" instance=ExtResource( 11 )]
 position = Vector2( 992, 463 )
 
-[node name="grass1175" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1068, 302 )
-
-[node name="grass1176" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1078, 302 )
-
-[node name="grass1177" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1088, 302 )
-
-[node name="grass1178" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1048, 302 )
-
-[node name="grass1179" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1058, 302 )
-
-[node name="grass1180" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1028, 302 )
-
-[node name="grass1181" parent="Grass Node" instance=ExtResource( 9 )]
-position = Vector2( 1038, 302 )
-
 [node name="grass1182" parent="Grass Node" instance=ExtResource( 11 )]
 position = Vector2( 1007, 454 )
 
@@ -4952,27 +4943,6 @@ position = Vector2( 998, 454 )
 
 [node name="grass1184" parent="Grass Node" instance=ExtResource( 11 )]
 position = Vector2( 998, 464 )
-
-[node name="grass1185" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1068, 302 )
-
-[node name="grass1186" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1078, 302 )
-
-[node name="grass1187" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1088, 302 )
-
-[node name="grass1188" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1048, 302 )
-
-[node name="grass1189" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1058, 302 )
-
-[node name="grass1190" parent="Grass Node" instance=ExtResource( 11 )]
-position = Vector2( 1028, 302 )
-
-[node name="grass1191" parent="Grass Node" instance=ExtResource( 9 )]
-position = Vector2( 1038, 302 )
 
 [node name="grass1192" parent="Grass Node" instance=ExtResource( 11 )]
 position = Vector2( 1007, 454 )
@@ -6727,3 +6697,53 @@ shape = SubResource( 2 )
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="Outer Boundary Collision Shapes"]
 position = Vector2( 960, 281 )
 shape = SubResource( 2 )
+
+[node name="Crosswalks" type="Node2D" parent="."]
+
+[node name="Node2D" parent="Crosswalks" instance=ExtResource( 13 )]
+position = Vector2( 99, 394 )
+
+[node name="Node2D2" parent="Crosswalks" instance=ExtResource( 13 )]
+position = Vector2( 123, 394 )
+
+[node name="Node2D3" parent="Crosswalks" instance=ExtResource( 13 )]
+position = Vector2( 147, 394 )
+
+[node name="Node2D4" parent="Crosswalks" instance=ExtResource( 13 )]
+position = Vector2( 163, 394 )
+
+[node name="Node2D5" parent="Crosswalks" instance=ExtResource( 13 )]
+position = Vector2( 854, 394 )
+
+[node name="Node2D6" parent="Crosswalks" instance=ExtResource( 13 )]
+position = Vector2( 878, 394 )
+
+[node name="Node2D7" parent="Crosswalks" instance=ExtResource( 13 )]
+position = Vector2( 902, 394 )
+
+[node name="Node2D8" parent="Crosswalks" instance=ExtResource( 13 )]
+position = Vector2( 918, 394 )
+
+[node name="Node2D9" parent="Crosswalks" instance=ExtResource( 13 )]
+position = Vector2( 854, 217 )
+
+[node name="Node2D10" parent="Crosswalks" instance=ExtResource( 13 )]
+position = Vector2( 878, 217 )
+
+[node name="Node2D11" parent="Crosswalks" instance=ExtResource( 13 )]
+position = Vector2( 902, 217 )
+
+[node name="Node2D12" parent="Crosswalks" instance=ExtResource( 13 )]
+position = Vector2( 918, 217 )
+
+[node name="Node2D13" parent="Crosswalks" instance=ExtResource( 13 )]
+position = Vector2( 99, 220 )
+
+[node name="Node2D14" parent="Crosswalks" instance=ExtResource( 13 )]
+position = Vector2( 123, 220 )
+
+[node name="Node2D15" parent="Crosswalks" instance=ExtResource( 13 )]
+position = Vector2( 147, 220 )
+
+[node name="Node2D16" parent="Crosswalks" instance=ExtResource( 13 )]
+position = Vector2( 163, 220 )
