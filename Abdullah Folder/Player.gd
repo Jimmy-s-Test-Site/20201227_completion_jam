@@ -17,6 +17,7 @@ var min_max = [5, 15]
 var dead = false
 var attackReady = true
 var receivingAttack = false
+var animationIsFinished = true
 
 export (int) var maxHealth = 10
 var healthRemaining = maxHealth
@@ -39,6 +40,7 @@ func _physics_process(delta):
 		inputToMotion(delta)
 		healing()
 		attack()
+		animationManager()
 	
 	
 	
@@ -117,7 +119,14 @@ func on_enemy_attack():
 	self.receivingAttack = true
 
 func animationManager():
-	pass
+	if self.animationIsFinished:
+		if self.input.attack : $AnimationPlayer.play("Attack")
+		elif self.input.up or self.input.down or self.input.left or self.input.right:
+			$AnimationPlayer.play("Walking")
+		elif self.input.heal : $AnimationPlayer.play("Heal")
+		else:
+			$AnimationPlayer.play("Walking")
+		self.animationIsFinished = false
 
 
 
@@ -144,3 +153,7 @@ func _on_AttackTimer_timeout():
 
 func _on_Area2D_body_entered(_body):
 	emit_signal("attack")
+
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	self.animationIsFinished = true

@@ -1,24 +1,107 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Abdullah Folder/Player.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://Abdullah Folder/Tiles and Art/CharacterSprite.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 31.3576, 31.386 )
+extents = Vector2( 6.01209, 3.26493 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 109.318, 17.7673 )
+extents = Vector2( 5.96926, 2.77694 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "Attack"
+tracks/0/type = "value"
+tracks/0/path = NodePath("aliveSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 8, 9, 10, 0 ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "Heal"
+tracks/0/type = "value"
+tracks/0/path = NodePath("aliveSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 16 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("aliveSprite:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.2, 0.5, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 10, 10, 10, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "Idle"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("aliveSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 16 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "Walking"
+length = 1.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("aliveSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 2, 3, 4, 5, 6, 7, 0 ]
+}
 
 [node name="Player" type="KinematicBody2D"]
+position = Vector2( 0.596621, 1.60826 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="aliveSprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
+vframes = 3
+hframes = 8
+frame = 16
+region_enabled = true
+region_rect = Rect2( 0, 0, 128, 40 )
 
 [node name="PlayerBody" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( -2.103, 2.192 )
 shape = SubResource( 1 )
 
 [node name="Timer" type="Timer" parent="."]
@@ -28,9 +111,25 @@ shape = SubResource( 1 )
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="AttackRange" type="CollisionShape2D" parent="Area2D"]
-position = Vector2( 0, -50 )
+position = Vector2( 0.818, -3.821 )
 shape = SubResource( 2 )
 disabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_speed = 0.25
+anims/Attack = SubResource( 4 )
+anims/Heal = SubResource( 6 )
+anims/Idle = SubResource( 5 )
+anims/Walking = SubResource( 3 )
+
+[node name="deadSprite" type="Sprite" parent="."]
+visible = false
+position = Vector2( -0.504, 0 )
+texture = ExtResource( 2 )
+flip_h = true
+region_enabled = true
+region_rect = Rect2( 0, 42, 17, 17 )
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
