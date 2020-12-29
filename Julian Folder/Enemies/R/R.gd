@@ -100,7 +100,7 @@ func receive_damage() -> void:
 		
 		if collision.collider.name == "Player":
 			collision.collider.connect("attack", self, "on_Player_attack")
-			
+			$SFX/GotHitSound.play()
 			if self.player_attacked:
 				self.health -= 1
 				if self.health < 0: self.health = 0
@@ -125,6 +125,7 @@ func death_manager() -> void:
 func animation_manager() -> void:
 	if not self.alive:
 		$AnimationPlayer.play("Dead")
+		$SFX/DyingSound.play()
 	elif self.attacking:
 		$AnimationPlayer.play("Attack")
 	else:

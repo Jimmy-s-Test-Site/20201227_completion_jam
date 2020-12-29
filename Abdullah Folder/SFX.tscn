@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Abdullah Folder/SFX/Hit_Sound.wav" type="AudioStream" id=1]
+[ext_resource path="res://Abdullah Folder/SFX/right.wav" type="AudioStream" id=2]
+[ext_resource path="res://Abdullah Folder/SFX/heal.wav" type="AudioStream" id=3]
+[ext_resource path="res://Abdullah Folder/SFX/hit_ground_or_die.wav" type="AudioStream" id=4]
+[ext_resource path="res://Abdullah Folder/SFX/sirenig.wav" type="AudioStream" id=5]
+
+[node name="SFX" type="Node2D"]
+
+[node name="HealSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="."]
+
+[node name="GotHitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 1 )
+
+[node name="DyingSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+
+[node name="WalkingL" type="AudioStreamPlayer2D" parent="."]
+rotation = 0.00762189
+stream = ExtResource( 2 )
+volume_db = 1.0
+
+[node name="WalkingR" type="AudioStreamPlayer2D" parent="."]
+volume_db = 1.0
+
+[node name="Siren" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )

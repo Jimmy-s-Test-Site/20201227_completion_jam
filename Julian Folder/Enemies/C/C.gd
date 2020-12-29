@@ -42,6 +42,7 @@ func _physics_process(delta : float) -> void:
 	self.death_manager()
 
 func movement_manager(delta : float) -> void:
+	$SFX/Siren.play()
 	self.follow_path(delta)
 
 func follow_path(delta : float) -> void:

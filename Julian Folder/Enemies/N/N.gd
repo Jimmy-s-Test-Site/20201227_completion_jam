@@ -95,7 +95,7 @@ func receive_damage() -> void:
 		
 		if collision.collider.name == "Player":
 			collision.collider.connect("attack", self, "on_Player_attack")
-			
+			$SFX/GotHitSound.play()
 			if self.player_attacked:
 				self.health -= 1
 				if self.health < 0: self.health = 0
@@ -114,7 +114,7 @@ func death_manager() -> void:
 		$AttackArea.set_physics_process(false)
 		
 		$DespawnTimer.start(self.despawn_time)
-		
+		$SFX/DyingSound.play()
 		self.alive = false
 
 func animation_manager() -> void:
