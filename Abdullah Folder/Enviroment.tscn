@@ -25,7 +25,6 @@ extents = Vector2( 10, 369 )
 [node name="Enviroment" type="Node2D"]
 
 [node name="Background Color" parent="." instance=ExtResource( 6 )]
-visible = false
 position = Vector2( -673, -668 )
 scale = Vector2( 100, 100 )
 
@@ -6564,7 +6563,6 @@ position = Vector2( 956, 520 )
 rotation = 1.5708
 
 [node name="Lamps" type="Node2D" parent="."]
-visible = false
 
 [node name="Lamp Garden" parent="Lamps" instance=ExtResource( 5 )]
 position = Vector2( 85, 44 )
@@ -6756,18 +6754,23 @@ position = Vector2( 163, 220 )
 
 [node name="DeadDudes on the ground" parent="CorpsesNStuff" instance=ExtResource( 15 )]
 position = Vector2( 137, 267 )
+rotation = -0.990112
 
 [node name="DeadDudes on the ground2" parent="CorpsesNStuff" instance=ExtResource( 15 )]
 position = Vector2( 423, 479 )
+rotation = 1.98816
 
 [node name="DeadDudes on the ground3" parent="CorpsesNStuff" instance=ExtResource( 15 )]
 position = Vector2( 448, 446 )
+rotation = -1.10494
 
 [node name="DeadDudes on the ground4" parent="CorpsesNStuff" instance=ExtResource( 15 )]
 position = Vector2( 580, 167 )
+rotation = -2.00116
 
 [node name="DeadDudes on the ground5" parent="CorpsesNStuff" instance=ExtResource( 15 )]
 position = Vector2( 815, 163 )
+rotation = 1.42923
 
 [node name="DeadDudes on the ground6" parent="CorpsesNStuff" instance=ExtResource( 15 )]
 position = Vector2( 783, 110 )
@@ -6777,6 +6780,7 @@ position = Vector2( 915, 129 )
 
 [node name="DeadDudes on the ground8" parent="CorpsesNStuff" instance=ExtResource( 15 )]
 position = Vector2( 916, 186 )
+rotation = 3.13609
 
 [node name="DeadCar" parent="CorpsesNStuff" instance=ExtResource( 14 )]
 position = Vector2( 886, 80 )

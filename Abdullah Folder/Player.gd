@@ -80,6 +80,7 @@ func inputToMotion(delta : float) -> void:
 func healing() -> bool:
 	if self.input.heal and self.isHealAvailable:
 		self.healthRemaining += self.hp_recovered_on_heal
+		$HealSound.play()
 		
 		if self.healthRemaining > self.maxHealth: 
 			self.healthRemaining = self.maxHealth
@@ -93,6 +94,7 @@ func healing() -> bool:
 func attack() -> void:
 	if self.input.attack:
 		$Area2D/AttackRange.disabled = false
+		
 		$AttackTimer.start(0.5)
 
 func receivedDamage() -> void:
@@ -112,8 +114,11 @@ func receivedDamage() -> void:
 					self.emit_signal("dead")
 					self.healthRemaining = 0
 					self.dead = true
+					$DyingSound.play()
 					$aliveSprite.visible = false
 					$deadSprite.visible = true
+				else:
+					$GotHitSound.play()
 				
 				self.emit_signal("new_hp", self.healthRemaining)
 	
