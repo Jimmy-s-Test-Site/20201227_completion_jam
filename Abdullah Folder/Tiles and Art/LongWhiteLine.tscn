@@ -1,6 +1,7 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Abdullah Folder/road_art.png" type="Texture" id=1]
+[ext_resource path="res://Abdullah Folder/Tiles and Art/road_art_fixed.png" type="Texture" id=1]
+
 
 [node name="LongWhiteLine" type="Node2D"]
 
@@ -8,4 +9,4 @@
 texture = ExtResource( 1 )
 centered = false
 region_enabled = true
-region_rect = Rect2( 210, 621, 8, 318 )
+region_rect = Rect2( 21, 62, 1, 31 )

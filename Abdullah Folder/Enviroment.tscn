@@ -1,75 +1,367 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Abdullah Folder/Tiles and Art/RoadTile.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Abdullah Folder/Tiles and Art/ParkingLotTile.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Abdullah Folder/Tiles and Art/ParkingAreaBigger.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Abdullah Folder/Tiles and Art/SidewalkTile.tscn" type="PackedScene" id=3]
 
 [node name="Enviroment" type="Node2D"]
-position = Vector2( -3188, 89 )
 
 [node name="Roads" type="Node2D" parent="."]
 
 [node name="RoadTile" parent="Roads" instance=ExtResource( 1 )]
-position = Vector2( 60, 783 )
+position = Vector2( -303, 122 )
 
 [node name="RoadTile2" parent="Roads" instance=ExtResource( 1 )]
-position = Vector2( 429, 783 )
+position = Vector2( -266, 122 )
 
 [node name="RoadTile3" parent="Roads" instance=ExtResource( 1 )]
-position = Vector2( 798, 783 )
+position = Vector2( -229, 122 )
 
 [node name="RoadTile4" parent="Roads" instance=ExtResource( 1 )]
-position = Vector2( 34, -501 )
+position = Vector2( -203, 348 )
 
 [node name="RoadTile5" parent="Roads" instance=ExtResource( 1 )]
-position = Vector2( 403, -501 )
+position = Vector2( -166, 348 )
 
 [node name="RoadTile6" parent="Roads" instance=ExtResource( 1 )]
-position = Vector2( 772, -501 )
+position = Vector2( -129, 348 )
 
 [node name="RoadTile7" parent="Roads" instance=ExtResource( 1 )]
-position = Vector2( 5645, -488 )
+position = Vector2( 1201, 183 )
 
 [node name="RoadTile8" parent="Roads" instance=ExtResource( 1 )]
-position = Vector2( 6014, -488 )
+position = Vector2( 1238, 183 )
 
 [node name="RoadTile9" parent="Roads" instance=ExtResource( 1 )]
-position = Vector2( 6383, -488 )
+position = Vector2( 1275, 183 )
 
 [node name="RoadTile10" parent="Roads" instance=ExtResource( 1 )]
-position = Vector2( 5713, 748 )
+position = Vector2( 1258, 371 )
 
 [node name="RoadTile11" parent="Roads" instance=ExtResource( 1 )]
-position = Vector2( 6082, 748 )
+position = Vector2( 1295, 371 )
 
 [node name="RoadTile12" parent="Roads" instance=ExtResource( 1 )]
-position = Vector2( 6451, 748 )
+position = Vector2( 1332, 371 )
 
 [node name="RoadTile13" parent="Roads" instance=ExtResource( 1 )]
-position = Vector2( 2347, 2679 )
+position = Vector2( 369, 968 )
 rotation = 1.5708
 
 [node name="RoadTile14" parent="Roads" instance=ExtResource( 1 )]
-position = Vector2( 2347, 2310 )
-rotation = 1.57079
+position = Vector2( 369, 1005 )
+rotation = 1.5708
 
 [node name="RoadTile15" parent="Roads" instance=ExtResource( 1 )]
-position = Vector2( 2347, 3048 )
+position = Vector2( 369, 1041 )
 rotation = 1.5708
 
 [node name="RoadTile16" parent="Roads" instance=ExtResource( 1 )]
-position = Vector2( 4904, 2689 )
+position = Vector2( 785, 969 )
 rotation = 1.5708
 
 [node name="RoadTile17" parent="Roads" instance=ExtResource( 1 )]
-position = Vector2( 4904, 2320 )
-rotation = 1.57079
-
-[node name="RoadTile18" parent="Roads" instance=ExtResource( 1 )]
-position = Vector2( 4904, 3058 )
+position = Vector2( 785, 1006 )
 rotation = 1.5708
 
-[node name="ParkingLotTile" parent="." instance=ExtResource( 2 )]
-position = Vector2( 2517, 274 )
+[node name="RoadTile18" parent="Roads" instance=ExtResource( 1 )]
+position = Vector2( 785, 1042 )
+rotation = 1.5708
 
-[node name="ParkingLotTile" parent="ParkingLotTile" instance=ExtResource( 2 )]
-position = Vector2( 21, 1299 )
+[node name="Parking Spaces" type="Node2D" parent="."]
+
+[node name="ParkingAreaBigger" parent="Parking Spaces" instance=ExtResource( 2 )]
+position = Vector2( 301, 713 )
+
+[node name="ParkingAreaBigger5" parent="Parking Spaces" instance=ExtResource( 2 )]
+position = Vector2( 385, 713 )
+
+[node name="ParkingAreaBigger2" parent="Parking Spaces" instance=ExtResource( 2 )]
+position = Vector2( 681, 714 )
+
+[node name="ParkingAreaBigger6" parent="Parking Spaces" instance=ExtResource( 2 )]
+position = Vector2( 765, 714 )
+
+[node name="ParkingAreaBigger3" parent="Parking Spaces" instance=ExtResource( 2 )]
+position = Vector2( 298, 892 )
+
+[node name="ParkingAreaBigger7" parent="Parking Spaces" instance=ExtResource( 2 )]
+position = Vector2( 382, 892 )
+
+[node name="ParkingAreaBigger4" parent="Parking Spaces" instance=ExtResource( 2 )]
+position = Vector2( 688, 891 )
+
+[node name="ParkingAreaBigger8" parent="Parking Spaces" instance=ExtResource( 2 )]
+position = Vector2( 772, 891 )
+
+[node name="Sidewalks" type="Node2D" parent="."]
+
+[node name="SidewalkTile" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 85, 44 )
+
+[node name="SidewalkTile2" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 119, 44 )
+
+[node name="SidewalkTile3" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 153, 44 )
+
+[node name="SidewalkTile4" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 187, 44 )
+
+[node name="SidewalkTile5" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 222, 44 )
+
+[node name="SidewalkTile6" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 256, 44 )
+
+[node name="SidewalkTile7" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 290, 44 )
+
+[node name="SidewalkTile8" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 324, 44 )
+
+[node name="SidewalkTile9" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 359, 44 )
+
+[node name="SidewalkTile10" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 393, 44 )
+
+[node name="SidewalkTile11" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 427, 44 )
+
+[node name="SidewalkTile12" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 461, 44 )
+
+[node name="SidewalkTile13" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 496, 44 )
+
+[node name="SidewalkTile14" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 530, 44 )
+
+[node name="SidewalkTile15" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 564, 44 )
+
+[node name="SidewalkTile16" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 598, 44 )
+
+[node name="SidewalkTile17" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 632, 44 )
+
+[node name="SidewalkTile18" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 666, 44 )
+
+[node name="SidewalkTile19" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 700, 44 )
+
+[node name="SidewalkTile20" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 734, 44 )
+
+[node name="SidewalkTile21" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 769, 44 )
+
+[node name="SidewalkTile22" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 803, 44 )
+
+[node name="SidewalkTile23" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 837, 44 )
+
+[node name="SidewalkTile24" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 871, 44 )
+
+[node name="SidewalkTile25" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 906, 44 )
+
+[node name="SidewalkTile26" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 85, 556 )
+
+[node name="SidewalkTile27" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 119, 556 )
+
+[node name="SidewalkTile28" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 153, 556 )
+
+[node name="SidewalkTile29" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 187, 556 )
+
+[node name="SidewalkTile30" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 222, 556 )
+
+[node name="SidewalkTile31" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 256, 556 )
+
+[node name="SidewalkTile32" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 290, 556 )
+
+[node name="SidewalkTile33" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 324, 556 )
+
+[node name="SidewalkTile34" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 359, 556 )
+
+[node name="SidewalkTile35" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 393, 556 )
+
+[node name="SidewalkTile36" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 427, 556 )
+
+[node name="SidewalkTile37" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 461, 556 )
+
+[node name="SidewalkTile38" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 496, 556 )
+
+[node name="SidewalkTile39" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 530, 556 )
+
+[node name="SidewalkTile40" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 564, 556 )
+
+[node name="SidewalkTile41" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 598, 556 )
+
+[node name="SidewalkTile42" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 632, 556 )
+
+[node name="SidewalkTile43" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 666, 556 )
+
+[node name="SidewalkTile44" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 700, 556 )
+
+[node name="SidewalkTile45" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 734, 556 )
+
+[node name="SidewalkTile46" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 769, 556 )
+
+[node name="SidewalkTile47" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 803, 556 )
+
+[node name="SidewalkTile48" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 837, 556 )
+
+[node name="SidewalkTile49" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 871, 556 )
+
+[node name="SidewalkTile50" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 906, 556 )
+
+[node name="SidewalkTile51" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 99, 44 )
+rotation = 1.5708
+
+[node name="SidewalkTile52" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 99, 78 )
+rotation = 1.5708
+
+[node name="SidewalkTile53" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 99, 112 )
+rotation = 1.5708
+
+[node name="SidewalkTile54" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 99, 146 )
+rotation = 1.5708
+
+[node name="SidewalkTile55" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 99, 180 )
+rotation = 1.5708
+
+[node name="SidewalkTile56" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 99, 214 )
+rotation = 1.5708
+
+[node name="SidewalkTile57" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 99, 248 )
+rotation = 1.5708
+
+[node name="SidewalkTile58" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 99, 282 )
+rotation = 1.5708
+
+[node name="SidewalkTile59" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 99, 316 )
+rotation = 1.5708
+
+[node name="SidewalkTile60" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 99, 350 )
+rotation = 1.5708
+
+[node name="SidewalkTile61" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 99, 384 )
+rotation = 1.5708
+
+[node name="SidewalkTile62" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 99, 418 )
+rotation = 1.5708
+
+[node name="SidewalkTile63" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 99, 452 )
+rotation = 1.5708
+
+[node name="SidewalkTile64" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 99, 486 )
+rotation = 1.5708
+
+[node name="SidewalkTile65" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 99, 520 )
+rotation = 1.5708
+
+[node name="SidewalkTile66" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 956, 44 )
+rotation = 1.5708
+
+[node name="SidewalkTile67" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 956, 78 )
+rotation = 1.5708
+
+[node name="SidewalkTile68" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 956, 112 )
+rotation = 1.5708
+
+[node name="SidewalkTile69" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 956, 146 )
+rotation = 1.5708
+
+[node name="SidewalkTile70" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 956, 180 )
+rotation = 1.5708
+
+[node name="SidewalkTile71" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 956, 214 )
+rotation = 1.5708
+
+[node name="SidewalkTile72" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 956, 248 )
+rotation = 1.5708
+
+[node name="SidewalkTile73" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 956, 282 )
+rotation = 1.5708
+
+[node name="SidewalkTile74" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 956, 316 )
+rotation = 1.5708
+
+[node name="SidewalkTile75" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 956, 350 )
+rotation = 1.5708
+
+[node name="SidewalkTile76" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 956, 384 )
+rotation = 1.5708
+
+[node name="SidewalkTile77" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 956, 418 )
+rotation = 1.5708
+
+[node name="SidewalkTile78" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 956, 452 )
+rotation = 1.5708
+
+[node name="SidewalkTile79" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 956, 486 )
+rotation = 1.5708
+
+[node name="SidewalkTile80" parent="Sidewalks" instance=ExtResource( 3 )]
+position = Vector2( 956, 520 )
+rotation = 1.5708
