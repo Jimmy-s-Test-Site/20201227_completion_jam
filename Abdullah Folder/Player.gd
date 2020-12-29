@@ -38,9 +38,9 @@ func _physics_process(delta):
 	if not dead:
 		getInput()
 		inputToMotion(delta)
-		healing()
+		var healed = healing()
 		attack()
-		animationManager()
+		animationManager(healed)
 	
 	
 	
@@ -66,9 +66,9 @@ func inputToMotion(delta:float) -> void:
 
 
 
-func healing():
+func healing() -> bool:
 	if self.input.heal and self.isHealAvailable:
-		print("yes heal")
+		#print("yes heal")
 		self.healthRemaining += 4
 		
 		if self.healthRemaining > self.maxHealth: 
@@ -77,6 +77,8 @@ func healing():
 		self.isHealAvailable = false
 		$Timer.wait_time = rng.randi_range(self.min_max[0],self.min_max[1])
 		$Timer.start()
+		return true
+	return false
 
 
 
@@ -119,15 +121,11 @@ func receivedDamage():
 func on_enemy_attack():
 	self.receivingAttack = true
 
-func animationManager():
-	if self.animationIsFinished:
-		if self.input.attack : $AnimationPlayer.play("Attack")
-		elif self.input.up or self.input.down or self.input.left or self.input.right:
-			$AnimationPlayer.play("Walking")
-		elif self.input.heal : $AnimationPlayer.play("Heal")
-		else:
-			$AnimationPlayer.play("Walking")
-		self.animationIsFinished = false
+func animationManager(healed:bool):
+	if self.input.attack : $AnimationPlayer.play("Attack")
+	elif self.input.heal and healed : $AnimationPlayer.play("Heal")
+	elif self.input.up or self.input.down or self.input.left or self.input.right:
+		$AnimationPlayer.play("Walking")
 
 
 
