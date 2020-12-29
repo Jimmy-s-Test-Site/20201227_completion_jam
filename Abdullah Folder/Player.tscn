@@ -1,7 +1,8 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Abdullah Folder/Player.gd" type="Script" id=1]
 [ext_resource path="res://Abdullah Folder/Tiles and Art/CharacterSprite.png" type="Texture" id=2]
+[ext_resource path="res://Julian Folder/Sprites/smooth_light.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 6, 3.5 )
@@ -132,7 +133,7 @@ texture = ExtResource( 2 )
 centered = false
 vframes = 3
 hframes = 8
-frame = 4
+frame = 16
 region_rect = Rect2( 0, 0, 128, 40 )
 
 [node name="PlayerBody" type="CollisionShape2D" parent="."]
@@ -171,6 +172,12 @@ tree_root = SubResource( 17 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 18 )
+
+[node name="Light2D" type="Light2D" parent="."]
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 3 )
+color = Color( 1, 0.972549, 0.611765, 1 )
+shadow_enabled = true
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

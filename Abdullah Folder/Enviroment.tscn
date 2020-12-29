@@ -25,7 +25,6 @@ extents = Vector2( 10, 369 )
 [node name="Enviroment" type="Node2D"]
 
 [node name="Background Color" parent="." instance=ExtResource( 6 )]
-visible = false
 position = Vector2( -673, -668 )
 scale = Vector2( 100, 100 )
 
@@ -6564,7 +6563,6 @@ position = Vector2( 956, 520 )
 rotation = 1.5708
 
 [node name="Lamps" type="Node2D" parent="."]
-visible = false
 
 [node name="Lamp Garden" parent="Lamps" instance=ExtResource( 5 )]
 position = Vector2( 85, 44 )
