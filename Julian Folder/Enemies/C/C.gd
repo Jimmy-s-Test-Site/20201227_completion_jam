@@ -3,11 +3,13 @@ extends KinematicBody2D
 signal in_game
 signal attack
 
-export (NodePath) var path2D
+var path2D : NodePath
 
-export (int)   var health : int = 4
-export (int)   var attack : int = 4
-export (int)   var path_movement_speed : int = 3500
+export (Vector2) var direction := Vector2.UP
+
+export (int)     var health : int = 4
+export (int)     var attack : int = 4
+export (int)     var path_movement_speed : int = 3500
 
 onready var total_health = self.health
 
@@ -27,6 +29,12 @@ func player_exists() -> bool: return self.Player != null
 func _ready() -> void:
 	if self.path2D:
 		self.path_points = self.get_node(self.path2D).curve.get_baked_points()
+	
+	match self.direction:
+		Vector2.LEFT  : $AnimationPlayer.play("Left")
+		Vector2.RIGHT : $AnimationPlayer.play("Right")
+		Vector2.UP    : $AnimationPlayer.play("Up")
+		Vector2.DOWN  : $AnimationPlayer.play("Down")
 
 func _physics_process(delta : float) -> void:
 	self.movement_manager(delta)

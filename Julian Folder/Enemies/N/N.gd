@@ -2,17 +2,20 @@ extends KinematicBody2D
 
 signal in_game
 signal attack
+signal dead
 
-export (NodePath) var path2D
+var path2D : NodePath
 
-export (int)   var health : int = 1
-export (int)   var attack : int = 1
-export (int)   var movement_speed : int = 3500
-export (int)   var path_movement_speed : int = 3500
+export (int) var health : int = 1
+export (int) var attack : int = 1
+export (int) var movement_speed : int = 3500
+export (int) var path_movement_speed : int = 3500
 
-export (float) var rotation_speed
+export (float) var rotation_speed : float = 5.0
 export (float) var attack_cooldown_time : float = 1.0
+export (float) var despawn_time : float = 1.5
 
+var alive = true
 var attacking = false
 
 var screen_center := Vector2.ZERO
@@ -33,27 +36,33 @@ func _ready() -> void:
 		self.path_points = self.get_node(self.path2D).curve.get_baked_points()
 	
 	$AttackTimer.start(self.attack_cooldown_time)
+	
+	$AnimationPlayer.play("Walk")
 
 func _physics_process(delta : float) -> void:
 	self.movement_manager(delta)
 	self.receive_damage()
 	self.attack_manager()
 	self.death_manager()
+	self.animation_manager()
 
 func movement_manager(delta : float) -> void:
 	if self.should_follow_path():
 		self.emit_signal("in_game")
 		self.following_path = false
 	
-	if self.following_path: self.follow_path(delta)
-	else: self.move(delta)
+	if self.following_path:
+		self.follow_path(delta)
+	else:
+		self.move(delta)
 
 func should_follow_path() -> bool:
 	var on_last_index := self.prev_path_index != 0 and self.curr_path_index == 0
 	return self.following_path and on_last_index
 
 func follow_path(delta : float) -> void:
-	if not self.path2D: return
+	if self.path2D == null:
+		return
 	
 	var target = self.path_points[self.curr_path_index]
 	
@@ -63,7 +72,7 @@ func follow_path(delta : float) -> void:
 		target = self.path_points[self.curr_path_index]
 	
 	var movement = self.position.direction_to(target).normalized() * path_movement_speed * delta
-	move_and_slide(movement)
+	self.move_and_slide(movement)
 
 func move(delta : float) -> void:
 	var objective := self.Player.global_position if   \
@@ -81,8 +90,8 @@ func move(delta : float) -> void:
 	self.move_and_slide(movement)
 
 func receive_damage() -> void:
-	for i in get_slide_count():
-		var collision = get_slide_collision(i)
+	for i in self.get_slide_count():
+		var collision = self.get_slide_collision(i)
 		
 		if collision.collider.name == "Player":
 			collision.collider.connect("attack", self, "on_Player_attack")
@@ -99,10 +108,28 @@ func attack_manager() -> void:
 
 func death_manager() -> void:
 	if self.health == 0:
-		self.queue_free()
+		self.emit_signal("dead")
+		
+		$AttackArea.set_process(false)
+		$AttackArea.set_physics_process(false)
+		
+		$DespawnTimer.start(self.despawn_time)
+		
+		self.alive = false
+
+func animation_manager() -> void:
+	if not self.alive:
+		$AnimationPlayer.play("Dead")
+	elif self.attacking:
+		$AnimationPlayer.play("Attack")
+	else:
+		$AnimationPlayer.play("Walk")
 
 func _on_AttackArea_body_entered(body) -> void:
 	self.attacking = true
+
+func _on_DespawnTimer_timeout():
+	self.queue_free()
 
 func on_Player_attack() -> void:
 	self.player_attacked = true
