@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/left.wav-0c0ea9671f1589349489a3706e38259c.sample"
+
+[deps]
+
+source_file="res://Abdullah Folder/SFX/left.wav"
+dest_files=[ "res://.import/left.wav-0c0ea9671f1589349489a3706e38259c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
