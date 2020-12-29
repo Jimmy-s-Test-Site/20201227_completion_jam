@@ -113,6 +113,7 @@ func receivedDamage():
 					emit_signal("playerDeath")
 					healthRemaining = 0
 					dead = true
+					$deadSprite.visible = true
 				emit_signal("newHp",healthRemaining)
 	
 func on_enemy_attack():
