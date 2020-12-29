@@ -1,89 +1,20 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Abdullah Folder/road_art.png" type="Texture" id=1]
-[ext_resource path="res://Abdullah Folder/Tiles and Art/BlackTile.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Abdullah Folder/Tiles and Art/road_art_fixed.png" type="Texture" id=1]
 [ext_resource path="res://Abdullah Folder/Tiles and Art/LongWhiteLine.tscn" type="PackedScene" id=3]
 
-[node name="ParkingLotTile" type="Node2D"]
+[node name="ParkingSpaceTile" type="Node2D"]
 
-[node name="Node2D" type="Node2D" parent="."]
-
-[node name="road_art" type="Sprite" parent="Node2D"]
-position = Vector2( 0, 0.132431 )
+[node name="road_art_fixed" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 centered = false
 region_enabled = true
-region_rect = Rect2( 10, 620, 631, 321 )
+region_rect = Rect2( 1, 62, 62, 32 )
 
-[node name="LongWhiteLine" parent="Node2D/road_art" instance=ExtResource( 3 )]
-position = Vector2( 317.995, 0 )
+[node name="LongWhiteLine" parent="." instance=ExtResource( 3 )]
+position = Vector2( 31, 0 )
 rotation = 1.5708
 
-[node name="LongWhiteLine2" parent="Node2D/road_art" instance=ExtResource( 3 )]
-position = Vector2( 630.31, 0 )
-rotation = 1.5708
-
-[node name="road_art2" type="Sprite" parent="Node2D"]
-position = Vector2( 629.987, 0 )
-texture = ExtResource( 1 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 10, 620, 631, 321 )
-
-[node name="LongWhiteLine" parent="Node2D/road_art2" instance=ExtResource( 3 )]
-position = Vector2( 317.995, 0 )
-rotation = 1.5708
-
-[node name="LongWhiteLine2" parent="Node2D/road_art2" instance=ExtResource( 3 )]
-position = Vector2( 630.31, 0 )
-rotation = 1.5708
-
-[node name="BlackTile" parent="Node2D" instance=ExtResource( 2 )]
-position = Vector2( 1260, 0 )
-scale = Vector2( 0.88, 1.531 )
-
-[node name="LongWhiteLine" parent="Node2D" instance=ExtResource( 3 )]
-position = Vector2( 1459.72, 0 )
-rotation = 1.5708
-
-[node name="Node2D2" type="Node2D" parent="."]
-position = Vector2( 1459.67, 0 )
-rotation = 3.14159
-
-[node name="road_art" type="Sprite" parent="Node2D2"]
-position = Vector2( 0, 0.132431 )
-texture = ExtResource( 1 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 10, 620, 631, 321 )
-
-[node name="LongWhiteLine" parent="Node2D2/road_art" instance=ExtResource( 3 )]
-position = Vector2( 317.995, 0 )
-rotation = 1.5708
-
-[node name="LongWhiteLine2" parent="Node2D2/road_art" instance=ExtResource( 3 )]
-position = Vector2( 630.31, 0 )
-rotation = 1.5708
-
-[node name="road_art2" type="Sprite" parent="Node2D2"]
-position = Vector2( 629.987, 0 )
-texture = ExtResource( 1 )
-centered = false
-region_enabled = true
-region_rect = Rect2( 10, 620, 631, 321 )
-
-[node name="LongWhiteLine" parent="Node2D2/road_art2" instance=ExtResource( 3 )]
-position = Vector2( 317.995, 0 )
-rotation = 1.5708
-
-[node name="LongWhiteLine2" parent="Node2D2/road_art2" instance=ExtResource( 3 )]
-position = Vector2( 630.31, 0 )
-rotation = 1.5708
-
-[node name="BlackTile" parent="Node2D2" instance=ExtResource( 2 )]
-position = Vector2( 1260, 0 )
-scale = Vector2( 0.88, 1.531 )
-
-[node name="LongWhiteLine" parent="Node2D2" instance=ExtResource( 3 )]
-position = Vector2( 1459.72, 0 )
+[node name="LongWhiteLine2" parent="." instance=ExtResource( 3 )]
+position = Vector2( 62, 0 )
 rotation = 1.5708

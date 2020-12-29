@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/road_art.png-c713385139a563907e629b8a1de07d1b.stex"
+path="res://.import/lamp_post.png-bb61023c2367f8a5991e7c72e3e6e212.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Abdullah Folder/road_art.png"
-dest_files=[ "res://.import/road_art.png-c713385139a563907e629b8a1de07d1b.stex" ]
+source_file="res://Abdullah Folder/Tiles and Art/lamp_post.png"
+dest_files=[ "res://.import/lamp_post.png-bb61023c2367f8a5991e7c72e3e6e212.stex" ]
 
 [params]
 
