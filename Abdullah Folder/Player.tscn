@@ -1,8 +1,12 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Abdullah Folder/Player.gd" type="Script" id=1]
 [ext_resource path="res://Abdullah Folder/Tiles and Art/CharacterSprite.png" type="Texture" id=2]
-[ext_resource path="res://Julian Folder/Sprites/smooth_light.png" type="Texture" id=3]
+[ext_resource path="res://Abdullah Folder/SFX/heal.wav" type="AudioStream" id=3]
+[ext_resource path="res://Abdullah Folder/SFX/hit_ground_or_die.wav" type="AudioStream" id=4]
+[ext_resource path="res://Abdullah Folder/SFX/Hit_Sound.wav" type="AudioStream" id=5]
+[ext_resource path="res://Abdullah Folder/SFX/left.wav" type="AudioStream" id=6]
+[ext_resource path="res://Abdullah Folder/SFX/right.wav" type="AudioStream" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 6, 3.5 )
@@ -83,6 +87,24 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 4, 3, 2, 4, 5, 6 ]
 }
+tracks/1/type = "audio"
+tracks/1/path = NodePath("WalkingL")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 6 )
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 7 )
+} ],
+"times": PoolRealArray( 0.1, 0.4 )
+}
 
 [sub_resource type="AnimationNodeAnimation" id=7]
 animation = "Attack"
@@ -133,7 +155,7 @@ texture = ExtResource( 2 )
 centered = false
 vframes = 3
 hframes = 8
-frame = 16
+frame = 6
 region_rect = Rect2( 0, 0, 128, 40 )
 
 [node name="PlayerBody" type="CollisionShape2D" parent="."]
@@ -173,11 +195,22 @@ anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 18 )
 
-[node name="Light2D" type="Light2D" parent="."]
-scale = Vector2( 0.7, 0.7 )
-texture = ExtResource( 3 )
-color = Color( 1, 0.972549, 0.611765, 1 )
-shadow_enabled = true
+[node name="HealSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="."]
+
+[node name="GotHitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+
+[node name="DyingSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+
+[node name="WalkingL" type="AudioStreamPlayer2D" parent="."]
+rotation = 0.00762189
+stream = ExtResource( 7 )
+
+[node name="WalkingR" type="AudioStreamPlayer2D" parent="."]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
