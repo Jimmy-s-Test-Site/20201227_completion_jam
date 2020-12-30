@@ -19,6 +19,10 @@ export (int) var initial_ns_to_spawn : int = 10
 export (int) var initial_rs_to_spawn : int =  0
 export (int) var initial_cs_to_spawn : int =  0
 
+export (float) var n_ratio = 0.6
+export (float) var r_ratio = 0.4
+export (float) var c_ratio = 0.0
+
 var ns_to_spawn : int = 0
 var rs_to_spawn : int = 0
 var cs_to_spawn : int = 0
