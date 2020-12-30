@@ -135,13 +135,15 @@ func instance_enemies(n : int, r : int, c : int) -> void:
 	
 	var half_of_enemies = int(ceil(float(self.enemy_instances.size()) / 2))
 	
+	# split array into 2
+	
 	var enemies_to_instance := []
-	for i in range(0, half_of_enemies):
-		enemies_to_instance.append(self.enemy_instances[i])
+	for i in range(0, half_of_enemies): enemies_to_instance.append(self.enemy_instances[i])
 	
 	var enemies_for_later := []
-	for i in range(half_of_enemies + 1, self.enemy_instances.size()):
-		enemies_for_later.append(self.enemy_instances[i])
+	for i in range(half_of_enemies + 1, self.enemy_instances.size()): enemies_for_later.append(self.enemy_instances[i])
+	
+	# actually instance them
 	
 	for i in range(enemies_to_instance.size()):
 		yield(self.get_tree().create_timer(self.enemy_spawn_cooldown), "timeout")
