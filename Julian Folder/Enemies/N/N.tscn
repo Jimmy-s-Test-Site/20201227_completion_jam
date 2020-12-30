@@ -88,16 +88,6 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector2( 0, 0 ) ]
 }
-tracks/2/type = "audio"
-tracks/2/path = NodePath("SFX/WalkingL")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"clips": [  ],
-"times": PoolRealArray(  )
-}
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 3 )

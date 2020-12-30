@@ -1,12 +1,62 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Abdullah Folder/Enviroment.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Julian Folder/GUI/Health/Health.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Julian Folder/Screens/Game/Game.gd" type="Script" id=3]
 [ext_resource path="res://Abdullah Folder/Player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Julian Folder/Enemies/R/R.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Julian Folder/Enemies/C/C.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Julian Folder/Enemies/N/N.tscn" type="PackedScene" id=7]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -28, 154, 0, 0, 0, 0, 1069, 156 )
+}
+
+[sub_resource type="Curve2D" id=2]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 744, -44, 0, 0, 0, 0, 741, 631 )
+}
+
+[sub_resource type="Curve2D" id=3]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 1031, 325, 0, 0, 0, 0, -38, 322 )
+}
+
+[sub_resource type="Curve2D" id=4]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 297, 634, 0, 0, 0, 0, 296, -48 )
+}
+
+[sub_resource type="Curve2D" id=5]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -35, 327, 0, 0, 0, 0, 96, 322 )
+}
+
+[sub_resource type="Curve2D" id=6]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 304, -50, 0, 0, 0, 0, 297, 45 )
+}
+
+[sub_resource type="Curve2D" id=7]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 1055, 156, 0, 0, 0, 0, 946, 153 )
+}
+
+[sub_resource type="Curve2D" id=8]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 758, 629, 0, 0, 0, 0, 747, 553 )
+}
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 3 )
+N_resource = ExtResource( 7 )
+R_resource = ExtResource( 5 )
+C_resource = ExtResource( 6 )
+c_spawn_point_nodepaths = NodePath("SpawnPoints/CSpawnPoints")
+c_paths_nodepaths = NodePath("Paths/CPaths")
+n_r_spawn_points_nodepaths = NodePath("SpawnPoints/NRSpawnPoints")
+n_r_paths_nodepaths = NodePath("Paths/NRPaths")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color( 0.1, 0.1, 0.1, 1 )
@@ -25,13 +75,74 @@ limit_right = 990
 limit_bottom = 600
 smoothing_enabled = true
 
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="CSpawnPoints" type="Node2D" parent="SpawnPoints"]
+
+[node name="CSpawnPoint1" type="Position2D" parent="SpawnPoints/CSpawnPoints"]
+position = Vector2( -28, 158 )
+
+[node name="CSpawnPoint2" type="Position2D" parent="SpawnPoints/CSpawnPoints"]
+position = Vector2( 741, -43 )
+
+[node name="CSpawnPoint3" type="Position2D" parent="SpawnPoints/CSpawnPoints"]
+position = Vector2( 1053, 326 )
+
+[node name="CSpawnPoint4" type="Position2D" parent="SpawnPoints/CSpawnPoints"]
+position = Vector2( 303, 634 )
+
+[node name="NRSpawnPoints" type="Node2D" parent="SpawnPoints"]
+
+[node name="NRSpawnPoint1" type="Position2D" parent="SpawnPoints/NRSpawnPoints"]
+position = Vector2( -32, 327 )
+
+[node name="NRSpawnPoint2" type="Position2D" parent="SpawnPoints/NRSpawnPoints"]
+position = Vector2( 302, -39 )
+
+[node name="NRSpawnPoint3" type="Position2D" parent="SpawnPoints/NRSpawnPoints"]
+position = Vector2( 1065, 157 )
+
+[node name="NRSpawnPoint4" type="Position2D" parent="SpawnPoints/NRSpawnPoints"]
+position = Vector2( 744, 629 )
+
 [node name="Paths" type="Node2D" parent="."]
 
 [node name="CPaths" type="Node2D" parent="Paths"]
 
+[node name="CPath1" type="Path2D" parent="Paths/CPaths"]
+curve = SubResource( 1 )
+
+[node name="CPath2" type="Path2D" parent="Paths/CPaths"]
+curve = SubResource( 2 )
+
+[node name="CPath3" type="Path2D" parent="Paths/CPaths"]
+curve = SubResource( 3 )
+
+[node name="CPath4" type="Path2D" parent="Paths/CPaths"]
+curve = SubResource( 4 )
+
 [node name="NRPaths" type="Node2D" parent="Paths"]
+
+[node name="NRPath1" type="Path2D" parent="Paths/NRPaths"]
+curve = SubResource( 5 )
+
+[node name="NRPath2" type="Path2D" parent="Paths/NRPaths"]
+curve = SubResource( 6 )
+
+[node name="NRPath3" type="Path2D" parent="Paths/NRPaths"]
+curve = SubResource( 7 )
+
+[node name="NRPath4" type="Path2D" parent="Paths/NRPaths"]
+curve = SubResource( 8 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Health" parent="CanvasLayer" instance=ExtResource( 2 )]
-visible = false
+
+[node name="Timers" type="Node2D" parent="."]
+
+[node name="10SecTimer" type="Timer" parent="Timers"]
+wait_time = 10.0
+
+[node name="20SecTimer" type="Timer" parent="Timers"]
+wait_time = 20.0

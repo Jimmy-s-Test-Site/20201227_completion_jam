@@ -4,8 +4,6 @@ signal in_game
 signal attack
 signal dead
 
-var path2D : NodePath
-
 export (int) var health : int = 1
 export (int) var attack : int = 1
 export (int) var movement_speed : int = 3500
@@ -15,8 +13,11 @@ export (float) var rotation_speed : float = 5.0
 export (float) var attack_cooldown_time : float = 1.0
 export (float) var despawn_time : float = 1.5
 
-var alive = true
-var attacking = false
+var path2D # : NodePath
+var is_path2D_loaded := false
+
+var alive := true
+var attacking := false
 
 var screen_center := Vector2.ZERO
 
@@ -32,14 +33,29 @@ var curr_path_index : int = 0
 func player_exists() -> bool: return self.Player != null
 
 func _ready() -> void:
-	if self.path2D:
-		self.path_points = self.get_node(self.path2D).curve.get_baked_points()
+	#if self.path2D:
+	#	self.path_points = self.get_node(self.path2D).curve.get_baked_points()
 	
 	$AttackTimer.start(self.attack_cooldown_time)
 	
 	$AnimationPlayer.play("Walk")
 
+func needs_to_load_path2D() -> bool:
+	return not self.is_path2D_loaded and self.path2D
+
+func load_path2D() -> void:
+	print("Harry")
+	
+	# self.path_points = self.get_node(self.path2D).curve.get_baked_points()
+	
+	self.is_path2D_loaded = true
+
 func _physics_process(delta : float) -> void:
+	print("lol")
+	
+	if self.needs_to_load_path2D():
+		self.load_path2D()
+
 	self.movement_manager(delta)
 	self.receive_damage()
 	self.attack_manager()
@@ -47,14 +63,19 @@ func _physics_process(delta : float) -> void:
 	self.animation_manager()
 
 func movement_manager(delta : float) -> void:
-	if self.should_follow_path():
-		self.emit_signal("in_game")
-		self.following_path = false
-	
-	if self.following_path:
-		self.follow_path(delta)
+	if self.is_path2D_loaded:
+		if self.should_follow_path():
+			self.emit_signal("in_game")
+			self.following_path = false
+		
+		if self.following_path:
+			self.follow_path(delta)
+		else:
+			self.move(delta)
 	else:
-		self.move(delta)
+		self.stay_still()
+
+func stay_still() -> void: pass
 
 func should_follow_path() -> bool:
 	var on_last_index := self.prev_path_index != 0 and self.curr_path_index == 0
