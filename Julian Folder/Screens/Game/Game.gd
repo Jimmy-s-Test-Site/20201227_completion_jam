@@ -34,7 +34,16 @@ func _ready() -> void:
 	$CanvasLayer/Health.visible = false
 	$CanvasLayer/Health.Game = self.get_path()
 	
+	var new_n = self.N_resource.instance()
+	new_n.name = "BobRoss"
+	new_n.position = self.get_node(self.n_r_spawn_points_nodepaths).get_child(0).position
+	new_n.position = $Player.position + Vector2.LEFT * 10
+	new_n.path2D = self.get_node(self.n_r_paths_nodepaths).get_child(0).get_path()
 	
+	print(new_n.path2D)
+	print(new_n.position)
+	
+	self.add_child(new_n)
 
 func _physics_process(delta : float) -> void:
 	pass

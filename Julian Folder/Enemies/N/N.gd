@@ -44,18 +44,13 @@ func needs_to_load_path2D() -> bool:
 	return not self.is_path2D_loaded and self.path2D
 
 func load_path2D() -> void:
-	print("Harry")
-	
-	# self.path_points = self.get_node(self.path2D).curve.get_baked_points()
+	self.path_points = self.get_node(self.path2D).curve.get_baked_points()
 	
 	self.is_path2D_loaded = true
 
 func _physics_process(delta : float) -> void:
-	print("lol")
+	if self.needs_to_load_path2D(): self.load_path2D()
 	
-	if self.needs_to_load_path2D():
-		self.load_path2D()
-
 	self.movement_manager(delta)
 	self.receive_damage()
 	self.attack_manager()

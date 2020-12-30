@@ -1,7 +1,7 @@
 extends Node2D
 
 func _process(delta : float) -> void:
-	print("does this work?")
+	pass
 
 func _on_Start_start():
 	$Start.visible = false
@@ -14,6 +14,7 @@ func _on_Start_start():
 	$Game/Player/Camera2D.current = true
 	
 	#var new_n = $Game.N_resource.instance()
+	
 	#$Game.add_child(new_n)
 	
 	#new_n.name = "BobRoss"
