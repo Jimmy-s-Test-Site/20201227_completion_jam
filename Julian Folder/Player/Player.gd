@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 signal dead
+signal attack
 signal new_hp
 
 export (int, 1, 10) var max_health = 10
@@ -23,16 +24,14 @@ onready var health = self.max_health
 var rng = RandomNumberGenerator.new()
 
 var alive            := true
-#var healing          := false
-var healed            := false
-#var attacking        := false
-#var moving           := false
+var healing          := false
+var healed           := false
+var attacking        := false
+var moving           := false
 var receiving_damage := false
 
 var can_heal := true
 var can_attack := false
-
-var animation_is_finished = true
 
 var input = {
 	"vector" : Vector2.ZERO,
@@ -49,10 +48,10 @@ func _physics_process(delta):
 	if self.alive:
 		self.input_manager()
 		self.motion_manager(delta)
-#		self.receive_damage()
+		self.receive_damage()
 		self.attack_manager()
 		self.health_manager()
-#		self.death_manager()
+		self.death_manager()
 		self.animation_manager()
 		self.audio_manager()
 
@@ -80,20 +79,21 @@ func motion_manager(delta : float) -> void:
 	self.motion = self.motion.normalized() * self.speed * delta
 	self.motion = self.move_and_slide(self.motion, Vector2.ZERO)
 	
-#	if self.motion.length() > 0:
-#		self.moving = true
+	self.moving = self.input.vector != Vector2.ZERO
 
 func receive_damage() -> void:
+	self.receiving_damage = false
+	
 	for i in self.get_slide_count():
 		var collision = self.get_slide_collision(i)
 		var enemy = collision.collider
 		
-		var n_collision = enemy.get_parent().name.begins_with("N")
-		var r_collision = enemy.get_parent().name.begins_with("R")
-		var c_collision = enemy.get_parent().name.begins_with("C")
+		var n_collision = enemy.name.begins_with("N")
+		var r_collision = enemy.name.begins_with("R")
+		var c_collision = enemy.name.begins_with("C")
 		var enemy_collision = n_collision or r_collision or c_collision
 		
-		if enemy_collision:
+		if enemy_collision and enemy.can_attack:
 			self.health -= enemy.attack_amount
 			
 			if self.health < 0:
@@ -107,6 +107,10 @@ func attack_manager() -> void:
 	if self.input.attack and self.can_attack:
 		$AttackTimer.start(self.attack_cooldown)
 		$Area2D/AttackRange.disabled = false
+		
+		self.emit_signal("attack")
+		
+		self.attacking = true
 		self.can_attack = false
 
 func health_manager() -> void:
@@ -119,10 +123,9 @@ func health_manager() -> void:
 			self.health = self.max_health
 		
 		self.emit_signal("new_hp", self.health)
+		
+		self.healing = true
 		self.can_heal = false
-		self.healed = true
-	else:
-		self.healed = false
 
 func death_manager() -> void:
 	if self.health == 0:
@@ -131,51 +134,40 @@ func death_manager() -> void:
 		self.alive = false
 
 func animation_manager() -> void:
-	if self.alive and self.animation_is_finished:
-		if self.input.attack:
+	if self.alive:
+		if self.attacking:
 			$AnimationPlayer.play("Attack")
-		elif self.input.heal and self.healed:
+		elif self.healing:
 			$AnimationPlayer.play("Heal")
-		elif self.input.vector != Vector2.ZERO:
+		elif self.moving:
 			$AnimationPlayer.play("Walking")
 		else:
-			self.animation_mode.travel("Idle")
-	elif !self.alive:
-		self.animation_mode.travel("Dead")
+			$AnimationPlayer.play("Idle")
+	else:
+		$AnimationPlayer.play("Dead")
 
 func audio_manager() -> void:
 	if self.alive:
 		if self.receiving_damage:
-			$SFX/GotHitSound.play()
-		
-		if self.input.attack:
-			$SFX/Swing.play()
-		
-		if self.healed:
-			$SFX/HealSound.play()
-	else:
-		$SFX/DyingSound.play()
+			if not $SFX/GotHitSound.playing:
+				$SFX/GotHitSound.play()
 
 func _on_HealTimer_timeout() -> void:
 	self.can_heal = true
 
 func _on_AttackTimer_timeout() -> void:
 	self.can_attack = true
-	$Area2D/AttackRange.disabled = true
 
 func _on_Area2D_body_entered(_body : Node) -> void:
 	pass
 
 func _on_AnimationPlayer_animation_finished(anim_name : String) -> void:
-	self.animation_is_finished = true
-	#	if self.healing:
-#		self.can_heal = true
-#		self.healing = false
-#
-#	if self.attacking:
-#		self.can_attack = true
-#		self.attacking = false
+	if self.attacking:
+		self.attacking = false
 	
+	if self.healing:
+		self.healing = false
+
 func reset():
 	self.rng.randomize()
 	
