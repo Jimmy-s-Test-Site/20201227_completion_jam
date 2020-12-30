@@ -9,6 +9,9 @@ func _on_Start_start():
 	
 	$Game.pause_mode = Node.PAUSE_MODE_PROCESS
 	$Game.set_physics_process(true)
-		
+	
 	$Game/CanvasLayer/Health.visible = true
 	$Game/Player/Camera2D.current = true
+	
+	$Game.instance_r(10)
+	#$Game.instance_n(10)

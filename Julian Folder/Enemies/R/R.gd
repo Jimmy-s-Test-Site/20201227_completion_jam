@@ -14,13 +14,14 @@ export (float) var attack_cooldown_time : float = 1.0
 export (float) var despawn_time : float = 1.5
 
 var path2D
+var is_path2D_loaded := false
 
-var alive = true
-var attacking = false
+var alive := true
+var attacking := false
+var can_attack := false
 
 var Player : KinematicBody2D
 var player_is_alive := true
-var player_attacked := false
 
 var following_path := true
 var path_points : PoolVector2Array
@@ -45,13 +46,14 @@ func load_path2D() -> void:
 	self.is_path2D_loaded = true
 
 func _physics_process(delta : float) -> void:
-	if self.needs_to_load_path2D(): self.load_path2D()
-	
-	self.movement_manager(delta)
-	self.receive_damage()
-	self.attack_manager()
-	self.death_manager()
-	self.animation_manager()
+	if self.alive:
+		if self.needs_to_load_path2D(): self.load_path2D()
+		
+		self.movement_manager(delta)
+		self.receive_damage()
+		self.attack_manager()
+		self.death_manager()
+		self.animation_manager()
 
 func movement_manager(delta : float) -> void:
 	if self.should_follow_path():
@@ -102,16 +104,16 @@ func receive_damage() -> void:
 		var collision = self.get_slide_collision(i)
 		
 		if collision.collider.name == "Player":
-			collision.collider.connect("attack", self, "on_Player_attack")
 			$SFX/GotHitSound.play()
-			if self.player_attacked:
-				self.health -= 1
-				if self.health < 0: self.health = 0
+			
+			self.health -= 1
+			if self.health < 0: self.health = 0
 
 func attack_manager() -> void:
-	if self.attacking and $AttackTimer.time_left == 0:
+	if self.attacking and self.can_attack:
 		self.emit_signal("attack")
 		$AttackTimer.start(self.attack_cooldown_time)
+		self.can_attack = false
 		self.attacking = false
 
 func death_manager() -> void:
@@ -133,13 +135,13 @@ func animation_manager() -> void:
 		$AnimationPlayer.play("Attack")
 	else:
 		$AnimationPlayer.play("Walk")
-		Area2D
 
 func _on_AttackArea_body_entered(body : Node) -> void:
-	self.attacking = true
+	if body.name == "Player":
+		self.attacking = true
 
-func _on_DespawnTimer_timeout():
+func _on_DespawnTimer_timeout() -> void:
 	self.queue_free()
 
-func on_Player_attack() -> void:
-	self.player_attacked = true
+func _on_AttackTimer_timeout() -> void:
+	self.can_attack = true

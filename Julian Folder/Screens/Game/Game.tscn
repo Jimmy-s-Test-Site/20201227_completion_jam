@@ -154,3 +154,4 @@ wait_time = 10.0
 
 [node name="20SecTimer" type="Timer" parent="Timers"]
 wait_time = 20.0
+[connection signal="new_hp" from="Player" to="CanvasLayer/Health" method="on_Game_changed_health"]

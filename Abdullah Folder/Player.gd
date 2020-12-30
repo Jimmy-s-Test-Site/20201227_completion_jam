@@ -17,8 +17,8 @@ onready var animation_mode : AnimationNodeStateMachinePlayback = self.animation_
 var min_max = [5, 15]
 
 var dead = false
-var attackReady = true
-var receivingAttack = false
+var attacking = false
+var can_attack = true
 var animationIsFinished = true
 
 var healthRemaining = maxHealth
@@ -49,6 +49,7 @@ func _physics_process(delta):
 	if not self.dead:
 		self.getInput()
 		self.inputToMotion(delta)
+		self.receivedDamage()
 		var healed = self.healing()
 		self.attack()
 		self.animationManager(healed)
@@ -102,28 +103,22 @@ func receivedDamage() -> void:
 		var collision = self.get_slide_collision(i)
 		
 		if ["N", "R", "C"].has(collision.collider.get_parent().name):
-			collision.collider.connect("attack", self, "on_enemy_attack")
+			match collision.collider.name:
+				"N": self.healthRemaining -= 1
+				"R": self.healthRemaining -= 1
+				"C": self.healthRemaining -= 4
 			
-			if self.receivingAttack:
-				match collision.collider.name:
-					"N": self.healthRemaining -= 1
-					"R": self.healthRemaining -= 1
-					"C": self.healthRemaining -= 4
-				
-				if self.healthRemaining < 0:
-					self.emit_signal("dead")
-					self.healthRemaining = 0
-					self.dead = true
-					$DyingSound.play()
-					$aliveSprite.visible = false
-					$deadSprite.visible = true
-				else:
-					$GotHitSound.play()
+			if self.healthRemaining < 0:
+				self.emit_signal("dead")
+				self.healthRemaining = 0
+				self.dead = true
+				$SFX/DyingSound.play()
+				$aliveSprite.visible = false
+				$deadSprite.visible = true
+			else:
+				$SFX/GotHitSound.play()
 				
 				self.emit_signal("new_hp", self.healthRemaining)
-	
-func on_enemy_attack() -> void:
-	self.receivingAttack = true
 
 func animationManager(healed : bool) -> void:
 	if self.input.attack:
@@ -139,10 +134,17 @@ func _on_Timer_timeout() -> void: self.isHealAvailable = true
 
 func _on_AttackTimer_timeout() -> void:
 	$Area2D/AttackRange.disabled = true
-	self.attackReady = true
+	self.can_attack = true
 
 func _on_Area2D_body_entered(_body : Node) -> void:
-	self.emit_signal("attack")
+	var n_collision = _body.name.begins_with("N")
+	var r_collision = _body.name.begins_with("R")
+	var c_collision = _body.name.begins_with("C")
+	var enemy_collision = n_collision or r_collision or c_collision
+	
+	if enemy_collision:
+		self.attacking = true
+		self.emit_signal("attack")
 
 func _on_AnimationPlayer_animation_finished(anim_name : String) -> void:
 	self.animationIsFinished = true

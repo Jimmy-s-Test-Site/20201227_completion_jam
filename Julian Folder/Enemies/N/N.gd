@@ -103,8 +103,11 @@ func receive_damage() -> void:
 		var collision = self.get_slide_collision(i)
 		
 		if collision.collider.name == "Player":
-			collision.collider.connect("attack", self, "on_Player_attack")
+			if not collision.collider.is_connected("attack", self, "on_Player_attack"):
+				collision.collider.connect("attack", self, "on_Player_attack")
+			
 			$SFX/GotHitSound.play()
+			
 			if self.player_attacked:
 				self.health -= 1
 				if self.health < 0: self.health = 0

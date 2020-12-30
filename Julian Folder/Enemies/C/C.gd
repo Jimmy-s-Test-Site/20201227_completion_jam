@@ -3,8 +3,6 @@ extends KinematicBody2D
 signal in_game
 signal attack
 
-var path2D : NodePath
-
 export (Vector2) var direction := Vector2.UP
 
 export (int)     var health : int = 4
@@ -13,7 +11,10 @@ export (int)     var path_movement_speed : int = 3500
 
 onready var total_health = self.health
 
-var attacking = false
+var path2D
+var is_path2D_loaded := false
+
+var attacking := false
 
 var Player : KinematicBody2D
 var player_is_alive := true
@@ -63,7 +64,8 @@ func receive_damage() -> void:
 		var collision = get_slide_collision(i)
 		
 		if collision.collider.name == "Player":
-			collision.collider.connect("attack", self, "on_Player_attack")
+			if not collision.collider.is_connected("attack", self, "on_Player_attack"):
+				collision.collider.connect("attack", self, "on_Player_attack")
 			
 			if self.player_attacked:
 				self.health -= 1

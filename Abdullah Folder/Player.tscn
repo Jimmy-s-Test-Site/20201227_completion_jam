@@ -1,11 +1,9 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Abdullah Folder/Player.gd" type="Script" id=1]
 [ext_resource path="res://Abdullah Folder/Tiles and Art/CharacterSprite.png" type="Texture" id=2]
 [ext_resource path="res://Abdullah Folder/SFX.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Abdullah Folder/SFX/swing.wav" type="AudioStream" id=4]
-[ext_resource path="res://Abdullah Folder/SFX/left.wav" type="AudioStream" id=6]
-[ext_resource path="res://Abdullah Folder/SFX/right.wav" type="AudioStream" id=7]
 [ext_resource path="res://Julian Folder/Sprites/smooth_light.png" type="Texture" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -17,7 +15,6 @@ extents = Vector2( 6, 4.5 )
 [sub_resource type="Animation" id=3]
 resource_name = "Attack"
 length = 0.4
-loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("aliveSprite:frame")
 tracks/0/interp = 1
@@ -87,24 +84,6 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 4, 3, 2, 4, 5, 6 ]
-}
-tracks/1/type = "audio"
-tracks/1/path = NodePath("SFX/WalkingL")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"clips": [ {
-"end_offset": 0.0,
-"start_offset": 0.0,
-"stream": ExtResource( 6 )
-}, {
-"end_offset": 0.0,
-"start_offset": 0.0,
-"stream": ExtResource( 7 )
-} ],
-"times": PoolRealArray( 0.1, 0.4 )
 }
 
 [sub_resource type="AnimationNodeAnimation" id=7]
