@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 signal in_game
+signal attack
 signal dead
 
 export (int)   var health : int = 1
@@ -122,6 +123,8 @@ func receive_damage() -> void:
 func attack_manager() -> void:
 	if self.is_player_in_attacking_range and self.can_attack:
 		$AttackTimer.start(self.attack_cooldown_time)
+		
+		self.emit_signal("attack", self)
 		
 		self.can_attack = false
 		self.attacking = true

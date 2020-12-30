@@ -102,15 +102,20 @@ func receive_damage() -> void:
 		var c_collision = enemy.name.begins_with("C")
 		var enemy_collision = n_collision or r_collision or c_collision
 		
-		if enemy_collision and enemy.can_attack:
-			self.health -= enemy.attack_amount
-			
-			if self.health < 0:
-				self.health = 0
-			else:
-				self.emit_signal("new_hp", self.health)
-				
-				self.receiving_damage = true
+		# first attack only register the enemy
+		if enemy_collision:
+			if not enemy.is_connected("attack", self, "on_enemy_attack"):
+				enemy.connect("attack", self, "on_enemy_attack")
+		
+		#if enemy_collision:
+		#	self.health -= enemy.attack_amount
+		#	
+		#	if self.health < 0:
+		#		self.health = 0
+		#	else:
+		#		self.emit_signal("new_hp", self.health)
+		#		
+		#		self.receiving_damage = true
 
 func attack_manager() -> void:
 	if self.input.attack and self.can_attack:
@@ -175,6 +180,21 @@ func _on_Area2D_body_entered(_body : Node) -> void:
 func _on_AnimationPlayer_animation_finished(anim_name : String) -> void:
 	if self.attacking:
 		self.attacking = false
+		$Area2D/AttackRange.disabled = true
 	
 	if self.healing:
 		self.healing = false
+
+func on_enemy_attack(enemy) -> void:
+	for i in self.get_slide_count():
+		var collision = self.get_slide_collision(i)
+		
+		if enemy.name == collision.collider.name:
+			self.health -= enemy.attack_amount
+			
+			if self.health < 0:
+				self.health = 0
+			else:
+				self.emit_signal("new_hp", self.health)
+				
+				self.receiving_damage = true

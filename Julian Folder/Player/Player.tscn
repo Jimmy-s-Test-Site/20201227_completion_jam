@@ -338,20 +338,21 @@ graph_offset = Vector2( -78, 76 )
 [node name="Player" type="KinematicBody2D"]
 collision_mask = 6
 script = ExtResource( 1 )
-max_health = 3
-hp_recovered_on_heal = 1
+max_health = 5
+hp_recovered_on_heal = 3
 heal_range = {
 "maxi": 40,
 "mini": 30
 }
 
 [node name="aliveSprite" type="Sprite" parent="."]
+modulate = Color( 7, 7, 7, 1 )
 position = Vector2( -6, -9.5 )
 texture = ExtResource( 2 )
 centered = false
 vframes = 3
 hframes = 8
-frame = 16
+frame = 8
 region_rect = Rect2( 0, 0, 128, 40 )
 
 [node name="deadSprite" type="Sprite" parent="."]
