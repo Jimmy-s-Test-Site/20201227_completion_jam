@@ -14,7 +14,9 @@ script = ExtResource( 2 )
 [node name="Game" parent="." instance=ExtResource( 3 )]
 visible = false
 
-[node name="Death Screen" parent="." instance=ExtResource( 4 )]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Death Screen" parent="CanvasLayer" instance=ExtResource( 4 )]
 visible = false
 
 [node name="Mute" parent="." instance=ExtResource( 5 )]
@@ -23,3 +25,5 @@ margin_top = 0.0370178
 margin_right = 1.32065
 margin_bottom = 0.0370178
 [connection signal="start" from="Start" to="." method="_on_Start_start"]
+[connection signal="game_over" from="Game" to="." method="_on_Game_game_over"]
+[connection signal="startAgain" from="CanvasLayer/Death Screen" to="." method="_on_Death_Screen_startAgain"]

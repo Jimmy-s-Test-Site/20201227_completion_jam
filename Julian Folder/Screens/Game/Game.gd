@@ -1,5 +1,7 @@
 extends Node2D
 
+signal game_over
+
 export (PackedScene) var N_scene
 export (PackedScene) var R_scene
 export (PackedScene) var C_scene
@@ -182,6 +184,15 @@ func second_wave() -> void:
 	self.level += 1
 	self.start_level(self.level)
 
+func _on_10SecTimer_timeout():
+	if not self.started_new_wave:
+		self.started_new_wave = true
+		
+		self.second_wave()
+
+func _on_Player_dead():
+	self.emit_signal("game_over", self.level)
+
 func on_Enemy_died() -> void:
 	self.total_enemies -= 1
 	
@@ -193,9 +204,3 @@ func on_Enemy_died() -> void:
 	
 	if self.total_enemies == 0:
 		self.get_node("Timers/10SecTimer").start(10)
-
-func _on_10SecTimer_timeout():
-	if not self.started_new_wave:
-		self.started_new_wave = true
-		
-		self.second_wave()

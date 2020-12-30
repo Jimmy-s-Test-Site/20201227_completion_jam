@@ -4,7 +4,6 @@
 [ext_resource path="res://Julian Folder/Fonts/SubTitle.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Julian Folder/Screens/Death/Death Screen.gd" type="Script" id=3]
 
-
 [sub_resource type="GDScript" id=1]
 script/source = "extends TextureRect
 
@@ -43,10 +42,10 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="."]
 modulate = Color( 0.0117647, 0.00392157, 0.00392157, 1 )
-margin_left = 87.0
-margin_top = 82.0
-margin_right = 808.0
-margin_bottom = 229.0
+margin_left = 85.0
+margin_top = 57.0
+margin_right = 806.0
+margin_bottom = 398.0
 custom_fonts/font = ExtResource( 2 )
 text = "You're out of 
 luck punk

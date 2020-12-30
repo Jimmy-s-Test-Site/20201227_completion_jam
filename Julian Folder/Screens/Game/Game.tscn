@@ -152,5 +152,6 @@ margin_bottom = 313.0
 
 [node name="10SecTimer" type="Timer" parent="Timers"]
 wait_time = 10.0
+[connection signal="dead" from="Player" to="." method="_on_Player_dead"]
 [connection signal="new_hp" from="Player" to="CanvasLayer/Health" method="on_Game_changed_health"]
 [connection signal="timeout" from="Timers/10SecTimer" to="." method="_on_10SecTimer_timeout"]
