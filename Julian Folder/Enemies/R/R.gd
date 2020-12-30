@@ -153,10 +153,11 @@ func _on_DespawnTimer_timeout() -> void:
 
 
 func _on_BodyArea_area_entered(area):
+	print("hey man")
 	for i in self.get_slide_count():
 		var collision = self.get_slide_collision(i)
 
-		if collision.collider.get_parent().get_parent().name == "Player":
+		if collision.collider.get_parent().name == "Player":
 			print("received damage")
 			$SFX/GotHitSound.play()
 
