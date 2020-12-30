@@ -36,12 +36,13 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
+modulate = Color( 1, 1, 1, 0 )
 margin_left = -22.0
 margin_top = -27.0
 margin_right = 23.0
 margin_bottom = 45.0
 custom_fonts/font = ExtResource( 1 )
-text = "2"
+text = "3"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false

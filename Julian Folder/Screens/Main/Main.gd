@@ -14,5 +14,4 @@ func _on_Start_start():
 	$Game/CanvasLayer/Health.visible = true
 	$Game/Player/Camera2D.current = true
 	
-	$Game.instance_r(10)
-	#$Game.instance_n(10)
+	$Game.start_level(1)

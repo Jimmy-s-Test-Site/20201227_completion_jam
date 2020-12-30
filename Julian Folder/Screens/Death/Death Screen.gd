@@ -8,15 +8,11 @@ func _process(delta : float) -> void:
 		self.visible = false
 		self.set_physics_process(false)
 
-
-
-
 func setScore(score:int):
 	Label.text = "You're out of \nluck punk \nOnly lasted: " + str(score) + "level(s)"
 
-
 func _ready():
-	$Game/Player.connect("dead",self, "_on_Player_dead")
+	self.get_parent().get_node("Game/Player").connect("dead",self, "_on_Player_dead")
 
 
 func _on_Player_dead():
