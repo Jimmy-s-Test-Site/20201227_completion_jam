@@ -45,6 +45,18 @@ var motion = Vector2.ZERO
 func reset():
 	self.rng.randomize()
 	
+	self.health = self.max_health
+	
+	self.alive            = true
+	self.healing          = false
+	self.healed           = false
+	self.attacking        = false
+	self.moving           = false
+	self.receiving_damage = false
+	
+	self.can_heal         = true
+	self.can_attack       = false
+	
 	self.emit_signal("new_hp", self.health)
 	#self.animation_mode.travel("idle")
 	
@@ -106,16 +118,6 @@ func receive_damage() -> void:
 		if enemy_collision:
 			if not enemy.is_connected("attack", self, "on_enemy_attack"):
 				enemy.connect("attack", self, "on_enemy_attack")
-		
-		#if enemy_collision:
-		#	self.health -= enemy.attack_amount
-		#	
-		#	if self.health < 0:
-		#		self.health = 0
-		#	else:
-		#		self.emit_signal("new_hp", self.health)
-		#		
-		#		self.receiving_damage = true
 
 func attack_manager() -> void:
 	if self.input.attack and self.can_attack:
@@ -189,12 +191,17 @@ func on_enemy_attack(enemy) -> void:
 	for i in self.get_slide_count():
 		var collision = self.get_slide_collision(i)
 		
+		var n_collision = collision.collider.name.begins_with("N")
+		var r_collision = collision.collider.name.begins_with("R")
+		var c_collision = collision.collider.name.begins_with("C")
+		
 		if enemy.name == collision.collider.name:
-			self.health -= enemy.attack_amount
-			
-			if self.health < 0:
-				self.health = 0
-			else:
-				self.emit_signal("new_hp", self.health)
+			if n_collision or r_collision or c_collision:
+				self.health -= enemy.attack_amount
 				
-				self.receiving_damage = true
+				if self.health < 0:
+					self.health = 0
+				else:
+					self.emit_signal("new_hp", self.health)
+					
+					self.receiving_damage = true

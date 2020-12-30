@@ -19,9 +19,9 @@ export (int) var initial_ns_to_spawn : int = 10
 export (int) var initial_rs_to_spawn : int =  0
 export (int) var initial_cs_to_spawn : int =  0
 
-export (float) var n_ratio = 0.6
-export (float) var r_ratio = 0.4
-export (float) var c_ratio = 0.0
+export (float) var n_ratio = 0.55
+export (float) var r_ratio = 0.35
+export (float) var c_ratio = 0.0# 0.1
 
 var ns_to_spawn : int = 0
 var rs_to_spawn : int = 0
@@ -42,9 +42,9 @@ func enemies_from_level(level : int) -> Dictionary:
 	var total_enemies : int = int(floor(15 * (log(level+3)/log(2)) + cos(level) * 7 * log(level)))
 	
 	return {
-		"N": total_enemies * 0.6,
-		"R": total_enemies * 0.4,
-		"C": 0
+		"N": total_enemies * self.n_ratio,
+		"R": total_enemies * self.r_ratio,
+		"C": total_enemies * self.c_ratio
 	}
 
 func _ready() -> void:
@@ -144,6 +144,8 @@ func start_level(level : int):
 	$CanvasLayer/Countdown/AnimationPlayer.play("Countdown")
 	yield($CanvasLayer/Countdown/AnimationPlayer, "animation_finished")
 	$CanvasLayer/Countdown.visible = false
+	
+	$Player.reset()
 	
 	var planned_enemies = self.enemies_from_level(level)
 	self.instance_enemies(
