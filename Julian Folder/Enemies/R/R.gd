@@ -16,12 +16,12 @@ export (float) var despawn_time : float = 1.5
 var path2D
 var is_path2D_loaded := false
 
-#var alive := true
-#var attacking := false
-#var can_attack := false
+var alive := true
+var attacking := false
+var can_attack := false
 
 var Player : KinematicBody2D
-#var player_is_alive := true
+var player_is_alive := true
 
 var following_path := true
 var path_points : PoolVector2Array
@@ -29,6 +29,7 @@ var prev_path_index : int = 0
 var curr_path_index : int = 0
 
 var R_positions : PoolVector2Array
+
 
 func player_exists() -> bool: return self.Player != null
 
@@ -149,3 +150,15 @@ func _on_DespawnTimer_timeout() -> void:
 
 #func _on_AttackTimer_timeout() -> void:
 #	self.can_attack = true
+
+
+func _on_BodyArea_area_entered(area):
+	for i in self.get_slide_count():
+		var collision = self.get_slide_collision(i)
+
+		if collision.collider.get_parent().get_parent().name == "Player":
+			print("received damage")
+			$SFX/GotHitSound.play()
+
+			self.health -= 1
+			if self.health < 0: self.health = 0

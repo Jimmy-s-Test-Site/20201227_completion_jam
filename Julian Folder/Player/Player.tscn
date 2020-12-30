@@ -1,12 +1,12 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Julian Folder/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Abdullah Folder/Tiles and Art/CharacterSprite.png" type="Texture" id=2]
 [ext_resource path="res://Julian Folder/Audio/SFX.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Abdullah Folder/SFX/swing.wav" type="AudioStream" id=4]
+[ext_resource path="res://Abdullah Folder/SFX/left.wav" type="AudioStream" id=5]
+[ext_resource path="res://Abdullah Folder/SFX/right.wav" type="AudioStream" id=6]
 [ext_resource path="res://Julian Folder/Sprites/smooth_light.png" type="Texture" id=8]
-
-
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 6, 3.5 )
@@ -24,10 +24,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.3 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 8, 9, 10 ]
+"values": [ 8, 9, 10, 4 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("deadSprite:visible")
@@ -54,7 +54,7 @@ tracks/2/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=4]
 resource_name = "Dead"
 length = 0.1
 tracks/0/type = "value"
@@ -82,8 +82,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "Heal"
+[sub_resource type="Animation" id=5]
 tracks/0/type = "value"
 tracks/0/path = NodePath("aliveSprite:frame")
 tracks/0/interp = 1
@@ -133,8 +132,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "Idle"
+[sub_resource type="Animation" id=6]
 tracks/0/type = "value"
 tracks/0/path = NodePath("aliveSprite:frame")
 tracks/0/interp = 1
@@ -172,9 +170,8 @@ tracks/2/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 length = 0.6
-loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("aliveSprite:frame")
 tracks/0/interp = 1
@@ -211,54 +208,89 @@ tracks/2/keys = {
 "update": 1,
 "values": [ false ]
 }
-
-[sub_resource type="AnimationNodeAnimation" id=7]
-animation = "Attack"
-
-[sub_resource type="AnimationNodeAnimation" id=20]
-animation = "Dead"
+tracks/3/type = "audio"
+tracks/3/path = NodePath("SFX/WalkingL")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"clips": [  ],
+"times": PoolRealArray(  )
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("SFX/WalkingL:stream")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 5 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("SFX/WalkingR:stream")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 6 ) ]
+}
 
 [sub_resource type="AnimationNodeAnimation" id=8]
-animation = "Heal"
+animation = "Attack"
 
 [sub_resource type="AnimationNodeAnimation" id=9]
-animation = "Idle"
+animation = "Dead"
 
 [sub_resource type="AnimationNodeAnimation" id=10]
+animation = "Heal"
+
+[sub_resource type="AnimationNodeAnimation" id=11]
+animation = "Idle"
+
+[sub_resource type="AnimationNodeAnimation" id=12]
 animation = "Walking"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=11]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=12]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=13]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=14]
-switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=15]
-switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=16]
+switch_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=21]
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+switch_mode = 2
 
-[sub_resource type="AnimationNodeStateMachine" id=17]
-states/Attack/node = SubResource( 7 )
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+
+[sub_resource type="AnimationNodeStateMachine" id=20]
+states/Attack/node = SubResource( 8 )
 states/Attack/position = Vector2( 425, 213 )
-states/Dead/node = SubResource( 20 )
+states/Dead/node = SubResource( 9 )
 states/Dead/position = Vector2( 591, 120 )
-states/Heal/node = SubResource( 8 )
+states/Heal/node = SubResource( 10 )
 states/Heal/position = Vector2( 591, 319 )
-states/Idle/node = SubResource( 9 )
+states/Idle/node = SubResource( 11 )
 states/Idle/position = Vector2( 591, 213 )
-states/Walking/node = SubResource( 10 )
+states/Walking/node = SubResource( 12 )
 states/Walking/position = Vector2( 780, 213 )
-transitions = [ "Idle", "Attack", SubResource( 11 ), "Idle", "Walking", SubResource( 12 ), "Idle", "Heal", SubResource( 13 ), "Heal", "Idle", SubResource( 14 ), "Attack", "Idle", SubResource( 15 ), "Walking", "Idle", SubResource( 16 ), "Idle", "Dead", SubResource( 21 ) ]
+transitions = [ "Idle", "Attack", SubResource( 13 ), "Idle", "Walking", SubResource( 14 ), "Idle", "Heal", SubResource( 15 ), "Heal", "Idle", SubResource( 16 ), "Attack", "Idle", SubResource( 17 ), "Walking", "Idle", SubResource( 18 ), "Idle", "Dead", SubResource( 19 ) ]
 start_node = "Idle"
 end_node = "Dead"
+graph_offset = Vector2( -78, 76 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=18]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=21]
 
 [node name="Player" type="KinematicBody2D"]
 collision_mask = 6
@@ -270,7 +302,7 @@ texture = ExtResource( 2 )
 centered = false
 vframes = 3
 hframes = 8
-frame = 16
+frame = 3
 region_rect = Rect2( 0, 0, 128, 40 )
 
 [node name="deadSprite" type="Sprite" parent="."]
@@ -299,16 +331,16 @@ disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 3 )
-anims/Dead = SubResource( 19 )
-anims/Heal = SubResource( 4 )
-anims/Idle = SubResource( 5 )
-anims/Walking = SubResource( 6 )
+anims/Dead = SubResource( 4 )
+anims/Heal = SubResource( 5 )
+anims/Idle = SubResource( 6 )
+anims/Walking = SubResource( 7 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 17 )
+tree_root = SubResource( 20 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 18 )
+parameters/playback = SubResource( 21 )
 
 [node name="Light2D" type="Light2D" parent="."]
 scale = Vector2( 0.5, 0.5 )
