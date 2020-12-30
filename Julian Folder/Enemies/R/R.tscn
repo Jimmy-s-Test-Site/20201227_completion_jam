@@ -106,7 +106,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 1 ]
+"values": [ 0 ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("CollisionShape2D:disabled")
@@ -198,7 +198,7 @@ tracks/4/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 6, 4 )
+extents = Vector2( 12, 9 )
 
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 7, 4 )
