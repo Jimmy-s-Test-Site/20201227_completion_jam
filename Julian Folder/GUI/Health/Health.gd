@@ -36,9 +36,13 @@ func _process(delta : float) -> void:
 	self.check_if_GUI_is_attached_and_set()
 	self.connect_Game_signals_if_needed()
 
-func on_Game_can_heal() -> void:
+func _on_Player_can_heal(new_health_value : bool) -> void:
+	self.can_heal = new_health_value
 	$HealingIndicator.visible = self.can_heal
 
 func on_Game_changed_health(new_health : int):
+	self.health = new_health
+	
 	for i in self.health_indicators.size():
+		print(health_indicators[i].name)
 		self.health_indicators[i].visible = i <= self.health - 1

@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 signal dead
 signal attack
+signal can_heal
 signal new_hp
 
 export (int, 1, 10) var max_health = 10
@@ -122,6 +123,7 @@ func health_manager() -> void:
 		if self.health > self.max_health:
 			self.health = self.max_health
 		
+		self.emit_signal("can_heal", false)
 		self.emit_signal("new_hp", self.health)
 		
 		self.healing = true
@@ -153,6 +155,7 @@ func audio_manager() -> void:
 				$SFX/GotHitSound.play()
 
 func _on_HealTimer_timeout() -> void:
+	self.emit_signal("can_heal", true)
 	self.can_heal = true
 
 func _on_AttackTimer_timeout() -> void:
