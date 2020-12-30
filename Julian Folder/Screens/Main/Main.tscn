@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Julian Folder/Screens/Start/Start.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Julian Folder/Screens/Main/Main.gd" type="Script" id=2]
 [ext_resource path="res://Julian Folder/Screens/Game/Game.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Abdullah Folder/Death Screen.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Abdullah Folder/Mute.tscn" type="PackedScene" id=5]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 2 )
@@ -11,4 +13,13 @@ script = ExtResource( 2 )
 
 [node name="Game" parent="." instance=ExtResource( 3 )]
 visible = false
+
+[node name="Death Screen" parent="." instance=ExtResource( 4 )]
+visible = false
+
+[node name="Mute" parent="." instance=ExtResource( 5 )]
+margin_left = 1.32065
+margin_top = 0.0370178
+margin_right = 1.32065
+margin_bottom = 0.0370178
 [connection signal="start" from="Start" to="." method="_on_Start_start"]

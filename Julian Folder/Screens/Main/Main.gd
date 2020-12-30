@@ -1,7 +1,8 @@
 extends Node2D
 
 func _process(delta : float) -> void:
-	pass
+	if Input.is_action_just_pressed("mute"):
+		$Mute.muteAll()
 
 func _on_Start_start():
 	$Start.visible = false

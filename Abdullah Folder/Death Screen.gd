@@ -1,16 +1,23 @@
 extends Control
 
+signal startAgain
+
+func _process(delta : float) -> void:
+	if Input.is_action_just_pressed("continue"):
+		self.emit_signal("startAgain")
+		self.visible = false
+		self.set_physics_process(false)
+
+
 
 
 func setScore(score:int):
 	Label.text = "You're out of \nluck punk \nOnly lasted: " + str(score) + "level(s)"
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$Game/Player.connect("dead",self, "_on_Player_dead")
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _on_Player_dead():
+	self.visible = true
