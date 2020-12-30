@@ -72,6 +72,18 @@ tracks/4/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("Sprite:rotation_degrees")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
 
 [sub_resource type="Animation" id=2]
 resource_name = "Dead"
@@ -135,6 +147,18 @@ tracks/4/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Sprite:rotation_degrees")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -228,6 +252,18 @@ tracks/6/keys = {
 "method": "play"
 } ]
 }
+tracks/7/type = "value"
+tracks/7/path = NodePath("Sprite:rotation_degrees")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 6, 4 )
@@ -240,7 +276,7 @@ extents = Vector2( 6, 4 )
 
 [node name="R" type="KinematicBody2D"]
 collision_layer = 2
-collision_mask = 3
+collision_mask = 0
 script = ExtResource( 2 )
 attack_amount = 2
 movement_speed = 4250
@@ -248,10 +284,12 @@ attack_cooldown_time = 2.0
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 2, -1 )
+rotation = 3.14159
 texture = ExtResource( 1 )
+offset = Vector2( -1, -1 )
 vframes = 6
 hframes = 8
-frame = 32
+frame = 40
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 1 )
@@ -272,6 +310,7 @@ collision_layer = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
 position = Vector2( 0, -7 )
 shape = SubResource( 5 )
+disabled = true
 
 [node name="DespawnTimer" type="Timer" parent="."]
 
@@ -303,6 +342,7 @@ stream = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 6 )
+disabled = true
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="BodyArea" to="." method="_on_BodyArea_area_entered"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]

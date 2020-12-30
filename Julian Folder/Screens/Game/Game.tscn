@@ -157,9 +157,6 @@ margin_bottom = 313.0
 
 [node name="Timers" type="Node" parent="."]
 
-[node name="SecondWaveTimer" type="Timer" parent="Timers"]
-wait_time = 10.0
-
 [node name="InBetweenLevelsTimer" type="Timer" parent="Timers"]
 wait_time = 10.0
 
@@ -168,4 +165,3 @@ wait_time = 10.0
 [connection signal="can_heal" from="Player" to="CanvasLayer/Health" method="_on_Player_can_heal"]
 [connection signal="dead" from="Player" to="." method="_on_Player_dead"]
 [connection signal="new_hp" from="Player" to="CanvasLayer/Health" method="on_Game_changed_health"]
-[connection signal="timeout" from="Timers/SecondWaveTimer" to="." method="_on_SecondWaveTimer_timeout"]
