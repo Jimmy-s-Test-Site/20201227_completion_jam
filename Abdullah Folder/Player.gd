@@ -1,150 +1,180 @@
 extends KinematicBody2D
 
 signal dead
-signal attack
 signal new_hp
 
-var rng = RandomNumberGenerator.new()
-
-export (int) var maxHealth = 10
+export (int, 1, 10) var max_health = 10
 export (int) var hp_recovered_on_heal : int = 4
 export (int) var speed : int = 8000
-export (int) var rotationSpeed : int = 5
+export (int) var rotation_speed : int = 5
+
+export (float) var attack_cooldown : float = 0.5
+
+export (Dictionary) var heal_range : Dictionary = {
+	"mini": 5,
+	"maxi": 15
+}
 
 onready var animation_tree : AnimationTree = $AnimationTree
 onready var animation_mode : AnimationNodeStateMachinePlayback = self.animation_tree.get("parameters/playback")
 
-var min_max = [5, 15]
+onready var health = self.max_health
 
-var dead = false
-var attacking = false
-var can_attack = true
-var animationIsFinished = true
+var rng = RandomNumberGenerator.new()
 
-var healthRemaining = maxHealth
-var isHealAvailable = true;
+var alive            := true
+var healing          := false
+var attacking        := false
+var moving           := false
+var receiving_damage := false
 
-var input_vector := Vector2.ZERO
+var can_heal := false
+var can_attack := false
+
+var animation_is_finished = true
 
 var input = {
-	"up"     : false,
-	"down"   : false,
-	"left"   : false,
-	"right"  : false,
+	"vector" : Vector2.ZERO,
 	"attack" : false,
 	"heal"   : false
- }
+}
 
 var motion = Vector2.ZERO
 
 func _ready() -> void:
-	
 	self.rng.randomize()
-	$Timer.wait_time = 0.1
-	$Timer.start()
-	$AttackTimer.wait_time = 0.5
-	$AttackTimer.start()
+	
+	self.animation_mode.travel("idle")
+	
+	$AttackTimer.start(self.attack_cooldown)
 
 func _physics_process(delta):
-	if not self.dead:
-		self.getInput()
-		self.inputToMotion(delta)
-		self.receivedDamage()
-		var healed = self.healing()
-		self.attack()
-		self.animationManager(healed)
+	if self.alive:
+		self.input_manager()
+		self.motion_manager(delta)
+		self.receive_damage()
+		self.attack_manager()
+		self.health_manager()
+		self.death_manager()
+		self.animation_manager()
+		self.audio_manager()
 
-func getInput() -> void:
-	self.input.up = Input.is_action_pressed("ui_up")
-	self.input.right = Input.is_action_pressed("ui_right")
-	self.input.left = Input.is_action_pressed("ui_left")
-	self.input.down = Input.is_action_pressed("ui_down")
+func input_manager() -> void:
+	var left  = Input.is_action_pressed("ui_left")
+	var right = Input.is_action_pressed("ui_right")
+	var up    = Input.is_action_pressed("ui_up")
+	var down  = Input.is_action_pressed("ui_down")
+	
+	self.input.vector.x = int(right) - int(left)
+	self.input.vector.y = int(down)  - int(up)
 	
 	self.input.attack = Input.is_action_just_pressed("attack")
-	self.input.heal = Input.is_action_just_pressed("heal")
-	
-	self.input_vector.x = int(self.input.right) - int(self.input.left)
-	self.input_vector.y = int(self.input.down) - int(self.input.up)
+	self.input.heal   = Input.is_action_just_pressed("heal")
 
-func inputToMotion(delta : float) -> void:
-	self.rotation += self.rotationSpeed * delta * self.input_vector.x
-	var verticalAxis = self.input_vector.y
+func motion_manager(delta : float) -> void:
+	self.rotation += self.rotation_speed * delta * self.input.vector.x
+	var vertical_axis = self.input.vector.y
 	
 	self.motion = Vector2(
 		-sin(self.rotation),
 		cos(self.rotation)
-	) * verticalAxis
+	) * vertical_axis
 	
 	self.motion = self.motion.normalized() * self.speed * delta
 	self.motion = self.move_and_slide(self.motion, Vector2.ZERO)
-
-func healing() -> bool:
-	if self.input.heal and self.isHealAvailable:
-		self.healthRemaining += self.hp_recovered_on_heal
-		$SFX/HealSound.play()
-		
-		if self.healthRemaining > self.maxHealth: 
-			self.healthRemaining = self.maxHealth
-		
-		self.isHealAvailable = false
-		$Timer.start(self.rng.randi_range(self.min_max[0], self.min_max[1]))
-		return true
 	
-	return false
+	if self.motion.length() > 0:
+		self.moving = true
 
-func attack() -> void:
-	if self.input.attack:
-		$Area2D/AttackRange.disabled = false
-		$SFX/Swing.play()
-		$AttackTimer.start(0.5)
-
-func receivedDamage() -> void:
+func receive_damage() -> void:
 	for i in self.get_slide_count():
 		var collision = self.get_slide_collision(i)
+		var enemy = collision.collider
 		
-		if ["N", "R", "C"].has(collision.collider.get_parent().name):
-			match collision.collider.name:
-				"N": self.healthRemaining -= 1
-				"R": self.healthRemaining -= 1
-				"C": self.healthRemaining -= 4
+		var n_collision = enemy.get_parent().name.begins_with("N")
+		var r_collision = enemy.get_parent().name.begins_with("R")
+		var c_collision = enemy.get_parent().name.begins_with("C")
+		var enemy_collision = n_collision or r_collision or c_collision
+		
+		if enemy_collision:
+			self.health -= enemy.attack_amount
 			
-			if self.healthRemaining < 0:
-				self.emit_signal("dead")
-				self.healthRemaining = 0
-				self.dead = true
-				$SFX/DyingSound.play()
-				$aliveSprite.visible = false
-				$deadSprite.visible = true
+			if self.health < 0:
+				self.health = 0
 			else:
-				$SFX/GotHitSound.play()
+				self.emit_signal("new_hp", self.health)
 				
-				self.emit_signal("new_hp", self.healthRemaining)
+				self.receiving_damage = true
 
-func animationManager(healed : bool) -> void:
-	if self.input.attack:
-		self.animation_mode.travel("Attack")
-	elif self.input.heal and healed:
-		self.animation_mode.travel("Heal")
-	elif self.input_vector != Vector2.ZERO:
-		self.animation_mode.travel("Walking")
+func attack_manager() -> void:
+	if self.input.attack and self.can_attack:
+		$AttackTimer.start(self.attack_cooldown)
+		
+		self.can_attack = false
+		self.attacking = true
+
+func health_manager() -> void:
+	if self.input.heal and self.can_heal:
+		self.health += self.hp_recovered_on_heal
+		
+		$Timer.start(self.rng.randi_range(self.heal_range.mini, self.heal_range.maxi))
+		
+		if self.health > self.max_health:
+			self.health = self.max_health
+		else:
+			self.emit_signal("new_hp", self.health)
+			
+			self.can_heal = false
+			self.healing = true
+
+func death_manager() -> void:
+	if self.health == 0:
+		self.emit_signal("dead")
+		
+		self.alive = false
+
+func animation_manager() -> void:
+	if self.alive:
+		if self.attacking:
+			self.animation_mode.travel("Attack")
+		elif self.healing:
+			self.animation_mode.travel("Heal")
+		elif self.moving:
+			self.animation_mode.travel("Walking")
+		else:
+			self.animation_mode.travel("Idle")
 	else:
-		self.animation_mode.travel("Idle")
+		self.animation_mode.travel("Dead")
 
-func _on_Timer_timeout() -> void: self.isHealAvailable = true
+func audio_manager() -> void:
+	if self.alive:
+		if self.receiving_damage:
+			$SFX/GotHitSound.play()
+		
+		if self.attacking:
+			$SFX/Swing.play()
+		
+		if self.healing:
+			$SFX/HealSound.play()
+	else:
+		$SFX/DyingSound.play()
+
+func _on_HealTimer_timeout() -> void:
+	self.can_heal = true
 
 func _on_AttackTimer_timeout() -> void:
-	$Area2D/AttackRange.disabled = true
 	self.can_attack = true
 
 func _on_Area2D_body_entered(_body : Node) -> void:
-	var n_collision = _body.name.begins_with("N")
-	var r_collision = _body.name.begins_with("R")
-	var c_collision = _body.name.begins_with("C")
-	var enemy_collision = n_collision or r_collision or c_collision
-	
-	if enemy_collision:
-		self.attacking = true
-		self.emit_signal("attack")
+	pass
 
 func _on_AnimationPlayer_animation_finished(anim_name : String) -> void:
-	self.animationIsFinished = true
+	self.animation_is_finished = true
+	
+	if self.healing:
+		self.can_heal = true
+		self.healing = false
+	
+	if self.attacking:
+		self.can_attack = true
+		self.attacking = false

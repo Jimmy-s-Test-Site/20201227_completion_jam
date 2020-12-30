@@ -5,7 +5,7 @@ signal attack
 signal dead
 
 export (int)   var health : int = 2
-export (int)   var attack : int = 1
+export (int)   var attack_amount : int = 1
 export (int)   var movement_speed : int = 3500
 export (int)   var path_movement_speed : int = 3500
 
@@ -16,12 +16,12 @@ export (float) var despawn_time : float = 1.5
 var path2D
 var is_path2D_loaded := false
 
-var alive := true
-var attacking := false
-var can_attack := false
+#var alive := true
+#var attacking := false
+#var can_attack := false
 
 var Player : KinematicBody2D
-var player_is_alive := true
+#var player_is_alive := true
 
 var following_path := true
 var path_points : PoolVector2Array
@@ -100,32 +100,36 @@ func move(delta : float) -> void:
 	self.move_and_slide(movement)
 
 func receive_damage() -> void:
-	for i in self.get_slide_count():
-		var collision = self.get_slide_collision(i)
-		
-		if collision.collider.name == "Player":
-			$SFX/GotHitSound.play()
-			
-			self.health -= 1
-			if self.health < 0: self.health = 0
+	pass
+#	for i in self.get_slide_count():
+#		var collision = self.get_slide_collision(i)
+#
+#		if collision.collider.get_parent().get_parent().name == "Player":
+#			print("received damage")
+#			$SFX/GotHitSound.play()
+#
+#			self.health -= 1
+#			if self.health < 0: self.health = 0
 
 func attack_manager() -> void:
-	if self.attacking and self.can_attack:
-		self.emit_signal("attack")
-		$AttackTimer.start(self.attack_cooldown_time)
-		self.can_attack = false
-		self.attacking = false
+	pass
+#	if self.attacking and self.can_attack:
+#		self.emit_signal("attack")
+#		$AttackTimer.start(self.attack_cooldown_time)
+#		self.can_attack = false
+#		self.attacking = false
 
 func death_manager() -> void:
-	if self.health == 0:
-		self.emit_signal("dead")
-		
-		$AttackArea.set_process(false)
-		$AttackArea.set_physics_process(false)
-		
-		$DespawnTimer.start(self.despawn_time)
-		
-		self.alive = false
+	pass
+#	if self.health == 0:
+#		self.emit_signal("dead")
+#
+#		$AttackArea.set_process(false)
+#		$AttackArea.set_physics_process(false)
+#
+#		$DespawnTimer.start(self.despawn_time)
+#
+#		self.alive = false
 
 func animation_manager() -> void:
 	if not self.alive:
@@ -136,12 +140,12 @@ func animation_manager() -> void:
 	else:
 		$AnimationPlayer.play("Walk")
 
-func _on_AttackArea_body_entered(body : Node) -> void:
-	if body.name == "Player":
-		self.attacking = true
+#func _on_AttackArea_body_entered(body : Node) -> void:
+#	if body.name == "Player":
+#		self.attacking = true
 
 func _on_DespawnTimer_timeout() -> void:
 	self.queue_free()
 
-func _on_AttackTimer_timeout() -> void:
-	self.can_attack = true
+#func _on_AttackTimer_timeout() -> void:
+#	self.can_attack = true

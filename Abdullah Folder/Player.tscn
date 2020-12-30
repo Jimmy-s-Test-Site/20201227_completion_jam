@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Abdullah Folder/Player.gd" type="Script" id=1]
 [ext_resource path="res://Abdullah Folder/Tiles and Art/CharacterSprite.png" type="Texture" id=2]
@@ -27,6 +27,58 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 8, 9, 10 ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("deadSprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("aliveSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=19]
+resource_name = "Dead"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("aliveSprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("deadSprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [sub_resource type="Animation" id=4]
 resource_name = "Heal"
@@ -54,6 +106,30 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 10, 10, 10, 1 ), Color( 1, 1, 1, 1 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("aliveSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("deadSprite:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=5]
 resource_name = "Idle"
@@ -68,6 +144,30 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ 16 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("deadSprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("aliveSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -85,9 +185,36 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 4, 3, 2, 4, 5, 6 ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("aliveSprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("deadSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="AnimationNodeAnimation" id=7]
 animation = "Attack"
+
+[sub_resource type="AnimationNodeAnimation" id=20]
+animation = "Dead"
 
 [sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Heal"
@@ -112,17 +239,22 @@ switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=16]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=21]
+
 [sub_resource type="AnimationNodeStateMachine" id=17]
 states/Attack/node = SubResource( 7 )
-states/Attack/position = Vector2( 399, 49 )
+states/Attack/position = Vector2( 425, 213 )
+states/Dead/node = SubResource( 20 )
+states/Dead/position = Vector2( 591, 120 )
 states/Heal/node = SubResource( 8 )
-states/Heal/position = Vector2( 591, 167 )
+states/Heal/position = Vector2( 591, 319 )
 states/Idle/node = SubResource( 9 )
-states/Idle/position = Vector2( 591, 49 )
+states/Idle/position = Vector2( 591, 213 )
 states/Walking/node = SubResource( 10 )
-states/Walking/position = Vector2( 801, 49 )
-transitions = [ "Idle", "Attack", SubResource( 11 ), "Idle", "Walking", SubResource( 12 ), "Idle", "Heal", SubResource( 13 ), "Heal", "Idle", SubResource( 14 ), "Attack", "Idle", SubResource( 15 ), "Walking", "Idle", SubResource( 16 ) ]
+states/Walking/position = Vector2( 780, 213 )
+transitions = [ "Idle", "Attack", SubResource( 11 ), "Idle", "Walking", SubResource( 12 ), "Idle", "Heal", SubResource( 13 ), "Heal", "Idle", SubResource( 14 ), "Attack", "Idle", SubResource( 15 ), "Walking", "Idle", SubResource( 16 ), "Idle", "Dead", SubResource( 21 ) ]
 start_node = "Idle"
+end_node = "Dead"
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=18]
 
@@ -139,11 +271,19 @@ hframes = 8
 frame = 16
 region_rect = Rect2( 0, 0, 128, 40 )
 
+[node name="deadSprite" type="Sprite" parent="."]
+visible = false
+position = Vector2( -0.504, 0 )
+texture = ExtResource( 2 )
+flip_h = true
+region_enabled = true
+region_rect = Rect2( 0, 42, 17, 17 )
+
 [node name="PlayerBody" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -1.5 )
 shape = SubResource( 1 )
 
-[node name="Timer" type="Timer" parent="."]
+[node name="HealTimer" type="Timer" parent="."]
 
 [node name="AttackTimer" type="Timer" parent="."]
 
@@ -155,15 +295,9 @@ position = Vector2( 4, -5 )
 shape = SubResource( 2 )
 disabled = true
 
-[node name="deadSprite" type="Sprite" parent="."]
-position = Vector2( -0.504, 0 )
-texture = ExtResource( 2 )
-flip_h = true
-region_enabled = true
-region_rect = Rect2( 0, 42, 17, 17 )
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 3 )
+anims/Dead = SubResource( 19 )
 anims/Heal = SubResource( 4 )
 anims/Idle = SubResource( 5 )
 anims/Walking = SubResource( 6 )
@@ -183,7 +317,7 @@ texture = ExtResource( 8 )
 [node name="Swing" type="AudioStreamPlayer2D" parent="SFX"]
 stream = ExtResource( 4 )
 volume_db = 5.0
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="HealTimer" to="." method="_on_HealTimer_timeout"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
