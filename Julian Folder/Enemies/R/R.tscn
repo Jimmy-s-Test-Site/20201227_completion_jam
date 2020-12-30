@@ -96,6 +96,7 @@ extents = Vector2( 9, 6 )
 extents = Vector2( 27, 17 )
 
 [node name="R" type="KinematicBody2D"]
+collision_layer = 2
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -116,6 +117,7 @@ shape = SubResource( 4 )
 [node name="AttackTimer" type="Timer" parent="."]
 
 [node name="AttackArea" type="Area2D" parent="."]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
 position = Vector2( 0, -49 )

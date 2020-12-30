@@ -6683,6 +6683,7 @@ position = Vector2( 879, 315 )
 position = Vector2( 879, 143 )
 
 [node name="Outer Boundary Collision Shapes" type="StaticBody2D" parent="."]
+collision_layer = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Outer Boundary Collision Shapes"]
 position = Vector2( 523, 44 )
