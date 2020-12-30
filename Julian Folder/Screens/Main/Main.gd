@@ -39,8 +39,8 @@ func _on_Game_game_over(score : int):
 		enemy.queue_free()
 	
 	$Game.visible = false
+	$Game/CanvasLayer/Countdown/AnimationPlayer.seek(0.0)
 	$"CanvasLayer/Death Screen".visible = true
-	
 	$"CanvasLayer/Death Screen".set_process(true)
 	$Game.set_physics_process(false)
 	
