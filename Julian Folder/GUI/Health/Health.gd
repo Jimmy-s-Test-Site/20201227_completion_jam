@@ -21,20 +21,8 @@ onready var health_indicators = [
 	$Control/HealthIndicator_10
 ]
 
-func check_if_GUI_is_attached_and_set() -> void:
-	if not self.is_GUI_attached and self.Game != null:
-		self.is_GUI_attached = true
-
-func connect_Game_signals_if_needed() -> void:
-	if self.is_GUI_attached and not self.game_signals_connected:
-		self.get_node(self.Game).connect("can_heal", self, "on_Game_can_heal")
-		self.get_node(self.Game).connect("changed_health", self, "on_Game_changed_health")
-		# not gonna need to change this any longer
-		self.set_process(false)
-
 func _process(delta : float) -> void:
-	self.check_if_GUI_is_attached_and_set()
-	self.connect_Game_signals_if_needed()
+	pass
 
 func _on_Player_can_heal(new_health_value : bool) -> void:
 	self.can_heal = new_health_value
@@ -44,5 +32,4 @@ func on_Game_changed_health(new_health : int):
 	self.health = new_health
 	
 	for i in self.health_indicators.size():
-		print(health_indicators[i].name)
 		self.health_indicators[i].visible = i <= self.health - 1

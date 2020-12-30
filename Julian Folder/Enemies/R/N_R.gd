@@ -3,10 +3,10 @@ extends KinematicBody2D
 signal in_game
 signal dead
 
-export (int) var health : int = 0
-export (int) var attack : int = 1
-export (int) var movement_speed : int = 3500
-export (int) var path_movement_speed : int = 3500
+export (int)   var health : int = 1
+export (int)   var attack_amount : int = 1
+export (int)   var movement_speed : int = 3500
+export (int)   var path_movement_speed : int = 3500
 
 export (float) var rotation_speed : float = 5.0
 export (float) var attack_cooldown_time : float = 1.0
@@ -14,6 +14,9 @@ export (float) var despawn_time : float = 1.5
 
 var path2D
 var is_path2D_loaded := false
+
+var alive := true
+var attacking := false
 var receiving_damage := false
 var can_attack := true
 var is_player_in_attacking_range := false
@@ -26,6 +29,8 @@ var following_path := true
 var path_points : PoolVector2Array
 var prev_path_index : int = 0
 var curr_path_index : int = 0
+
+var R_positions : PoolVector2Array
 
 func player_exists() -> bool: return self.Player != null
 
@@ -43,13 +48,14 @@ func load_path2D() -> void:
 	self.is_path2D_loaded = true
 
 func _physics_process(delta : float) -> void:
-	if self.needs_to_load_path2D(): self.load_path2D()
-	
-	self.movement_manager(delta)
-	self.receive_damage()
-	self.attack_manager()
-	self.death_manager()
-	self.animation_manager()
+	if self.alive:
+		if self.needs_to_load_path2D(): self.load_path2D()
+		
+		self.movement_manager(delta)
+		self.receive_damage()
+		self.attack_manager()
+		self.death_manager()
+		self.animation_manager()
 
 func movement_manager(delta : float) -> void:
 	if self.should_follow_path():
@@ -79,6 +85,10 @@ func follow_path(delta : float) -> void:
 	self.move_and_slide(movement)
 
 func move(delta : float) -> void:
+	var Rs_and_player_mean_position := self.Player.global_position
+	for i in self.R_positions.size(): Rs_and_player_mean_position += self.R_positions[i]
+	Rs_and_player_mean_position /= 1 + self.R_positions.size()
+	
 	var objective : Vector2 = self.Player.global_position
 	
 	# TODO:
@@ -137,6 +147,7 @@ func animation_manager() -> void:
 		$AnimationPlayer.play("Dead")
 		$SFX/DyingSound.play()
 
+
 func set_is_player_in_attacking_range(body : String, value : bool) -> void:
 	if body == "Player":
 		self.is_player_in_attacking_range = value
@@ -148,7 +159,8 @@ func _on_AttackArea_body_exited(body : Node) -> void:
 	self.set_is_player_in_attacking_range(body.name, false)
 
 func _on_DespawnTimer_timeout() -> void:
-	self.queue_free()
+	pass
+	#self.queue_free()
 
 func _on_AttackTimer_timeout() -> void:
 	self.can_attack = true

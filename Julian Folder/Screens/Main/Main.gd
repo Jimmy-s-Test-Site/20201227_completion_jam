@@ -24,6 +24,7 @@ func _on_Start_start():
 	$Game.set_physics_process(true)
 	
 	$Game/CanvasLayer/Health.visible = true
+	$Game/CanvasLayer/Enemies.visible = true
 	$Game/Player/Camera2D.current = true
 	
 	$Game/Player.reset()
@@ -33,6 +34,7 @@ func _on_Start_start():
 
 func _on_Game_game_over(score : int):
 	$Game/CanvasLayer/Health.visible = false
+	$Game/CanvasLayer/Enemies.visible = false
 	$Game/Player/Camera2D.current = false
 	
 	for enemy in $Game/Enemies.get_children():
@@ -54,6 +56,7 @@ func _on_Death_Screen_startAgain():
 	$Game.set_physics_process(true)
 	
 	$Game/CanvasLayer/Health.visible = true
+	$Game/CanvasLayer/Enemies.visible = true
 	$Game/Player/Camera2D.current = true
 	
 	$Game/Player.reset()
