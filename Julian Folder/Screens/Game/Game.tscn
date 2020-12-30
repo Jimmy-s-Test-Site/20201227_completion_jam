@@ -1,9 +1,9 @@
 [gd_scene load_steps=16 format=2]
 
-[ext_resource path="res://Abdullah Folder/Enviroment.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Julian Folder/Environment/Enviroment.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Julian Folder/GUI/Health/Health.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Julian Folder/Screens/Game/Game.gd" type="Script" id=3]
-[ext_resource path="res://Abdullah Folder/Player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Julian Folder/Player/Player.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Julian Folder/Enemies/R/R.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Julian Folder/Enemies/C/C.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Julian Folder/Enemies/N/N.tscn" type="PackedScene" id=7]
@@ -136,12 +136,6 @@ curve = SubResource( 7 )
 curve = SubResource( 8 )
 
 [node name="Enemies" type="Node2D" parent="."]
-
-[node name="N" type="Node2D" parent="Enemies"]
-
-[node name="R" type="Node2D" parent="Enemies"]
-
-[node name="C" type="Node2D" parent="Enemies"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

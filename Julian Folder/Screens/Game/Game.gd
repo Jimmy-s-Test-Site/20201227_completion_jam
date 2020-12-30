@@ -19,6 +19,8 @@ var ns_to_spawn : int = 0
 var rs_to_spawn : int = 0
 var cs_to_spawn : int = 0
 
+var total_enemies = 0
+
 var level = 1
 
 func _ready() -> void:
@@ -29,7 +31,9 @@ func _ready() -> void:
 	$CanvasLayer/Health.visible = false
 	$CanvasLayer/Health.Game = self.get_path()
 
-func instance_n(number : int) -> void:
+func instance_n(number : int) -> Array:
+	var enemy_instances : Array = []
+	
 	for n in range(number):
 		var spawn_idx = randi() % ((
 			self.get_node(self.n_r_spawn_points_nodepaths).get_child_count() +
@@ -42,11 +46,13 @@ func instance_n(number : int) -> void:
 		new_n.Player = $Player
 		new_n.path2D = self.get_node(self.n_r_paths_nodepaths).get_child(spawn_idx).get_path()
 		
-		yield(self.get_tree().create_timer(self.enemy_spawn_cooldown), "timeout")
-		
-		$Enemies/N.add_child(new_n)
+		enemy_instances.append(new_n)
+	
+	return enemy_instances
 
-func instance_r(number : int) -> void:
+func instance_r(number : int) -> Array:
+	var enemy_instances : Array = []
+	
 	for n in range(number):
 		var spawn_idx = randi() % ((
 			self.get_node(self.n_r_spawn_points_nodepaths).get_child_count() +
@@ -59,12 +65,48 @@ func instance_r(number : int) -> void:
 		new_r.Player = $Player
 		new_r.path2D = self.get_node(self.n_r_paths_nodepaths).get_child(spawn_idx).get_path()
 		
+		enemy_instances.append(new_r)
+	
+	return enemy_instances
+
+func instance_c(number : int) -> Array:
+	var enemy_instances : Array = []
+	
+	for n in range(number):
+		var spawn_idx = randi() % ((
+			self.get_node(self.c_spawn_points_nodepaths).get_child_count() +
+			self.get_node(self.c_paths_nodepaths).get_child_count()
+		) / 2)
+		
+		var new_c = self.R_scene.instance()
+		new_c.name = new_c.name + String(n)
+		new_c.position = self.get_node(self.c_spawn_points_nodepaths).get_child(spawn_idx).position
+		new_c.Player = $Player
+		new_c.path2D = self.get_node(self.c_paths_nodepaths).get_child(spawn_idx).get_path()
+		
+		enemy_instances.append(new_c)
+	
+	return enemy_instances
+
+func instance_enemies(n : int, r : int, c : int) -> void:
+	var n_instances = self.instance_n(n)
+	var r_instances = self.instance_r(r)
+	var c_instances = self.instance_c(c)
+	
+	var enemy_instances : Array = n_instances + r_instances + c_instances
+	randomize()
+	
+	enemy_instances[randi() % enemy_instances.size()]
+	
+	for enemy in enemy_instances:
 		yield(self.get_tree().create_timer(self.enemy_spawn_cooldown), "timeout")
 		
-		$Enemies/R.add_child(new_r)
-
-func instance_c(number : int) -> void:
-	pass
+		$Enemies.add_child(enemy)
+		
+		enemy.connect("dead", self, "on_enemy_died")
 
 func _physics_process(delta : float) -> void:
+	pass
+
+func on_Enemy_died() -> void:
 	pass

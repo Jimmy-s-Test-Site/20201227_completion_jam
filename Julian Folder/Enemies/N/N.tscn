@@ -2,7 +2,8 @@
 
 [ext_resource path="res://Julian Folder/Sprites/N_and_R.png" type="Texture" id=1]
 [ext_resource path="res://Julian Folder/Enemies/N/N.gd" type="Script" id=2]
-[ext_resource path="res://Abdullah Folder/SFX.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Julian Folder/Audio/SFX.tscn" type="PackedScene" id=3]
+
 
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"
