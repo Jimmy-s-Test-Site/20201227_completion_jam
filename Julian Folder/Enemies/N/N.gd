@@ -19,8 +19,6 @@ var is_path2D_loaded := false
 var alive := true
 var attacking := false
 
-var screen_center := Vector2.ZERO
-
 var Player : KinematicBody2D
 var player_is_alive := true
 var player_attacked := false
@@ -33,9 +31,6 @@ var curr_path_index : int = 0
 func player_exists() -> bool: return self.Player != null
 
 func _ready() -> void:
-	#if self.path2D:
-	#	self.path_points = self.get_node(self.path2D).curve.get_baked_points()
-	
 	$AttackTimer.start(self.attack_cooldown_time)
 	
 	$AnimationPlayer.play("Walk")
@@ -91,9 +86,7 @@ func follow_path(delta : float) -> void:
 	self.move_and_slide(movement)
 
 func move(delta : float) -> void:
-	var objective := self.Player.global_position if   \
-		self.player_exists() and self.player_is_alive \
-		else self.screen_center
+	var objective : Vector2 = self.Player.global_position
 	
 	# TODO:
 	# make AI only move forwards, and rotate at set speed

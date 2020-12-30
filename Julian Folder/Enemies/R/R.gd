@@ -4,8 +4,6 @@ signal in_game
 signal attack
 signal dead
 
-var path2D : NodePath
-
 export (int)   var health : int = 2
 export (int)   var attack : int = 1
 export (int)   var movement_speed : int = 3500
@@ -15,10 +13,10 @@ export (float) var rotation_speed : float = 5.0
 export (float) var attack_cooldown_time : float = 1.0
 export (float) var despawn_time : float = 1.5
 
+var path2D
+
 var alive = true
 var attacking = false
-
-var screen_center := Vector2.ZERO
 
 var Player : KinematicBody2D
 var player_is_alive := true
@@ -34,14 +32,21 @@ var R_positions : PoolVector2Array
 func player_exists() -> bool: return self.Player != null
 
 func _ready() -> void:
-	if self.path2D:
-		self.path_points = self.get_node(self.path2D).curve.get_baked_points()
-	
 	$AttackTimer.start(self.attack_cooldown_time)
 	
 	$AnimationPlayer.play("Walk")
 
+func needs_to_load_path2D() -> bool:
+	return not self.is_path2D_loaded and self.path2D
+
+func load_path2D() -> void:
+	self.path_points = self.get_node(self.path2D).curve.get_baked_points()
+	
+	self.is_path2D_loaded = true
+
 func _physics_process(delta : float) -> void:
+	if self.needs_to_load_path2D(): self.load_path2D()
+	
 	self.movement_manager(delta)
 	self.receive_damage()
 	self.attack_manager()
@@ -80,9 +85,7 @@ func move(delta : float) -> void:
 	for i in self.R_positions.size(): Rs_and_player_mean_position += self.R_positions[i]
 	Rs_and_player_mean_position /= 1 + self.R_positions.size()
 	
-	var objective := self.Player.global_position if   \
-		self.player_exists() and self.player_is_alive \
-		else self.screen_center
+	var objective : Vector2 = self.Player.global_position
 	
 	# TODO:
 	# make AI only move forwards, and rotate at set speed

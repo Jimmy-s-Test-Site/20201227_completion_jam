@@ -50,9 +50,9 @@ _data = {
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 3 )
-N_resource = ExtResource( 7 )
-R_resource = ExtResource( 5 )
-C_resource = ExtResource( 6 )
+N_scene = ExtResource( 7 )
+R_scene = ExtResource( 5 )
+C_scene = ExtResource( 6 )
 c_spawn_point_nodepaths = NodePath("SpawnPoints/CSpawnPoints")
 c_paths_nodepaths = NodePath("Paths/CPaths")
 n_r_spawn_points_nodepaths = NodePath("SpawnPoints/NRSpawnPoints")
@@ -135,11 +135,19 @@ curve = SubResource( 7 )
 [node name="NRPath4" type="Path2D" parent="Paths/NRPaths"]
 curve = SubResource( 8 )
 
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="N" type="Node2D" parent="Enemies"]
+
+[node name="R" type="Node2D" parent="Enemies"]
+
+[node name="C" type="Node2D" parent="Enemies"]
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Health" parent="CanvasLayer" instance=ExtResource( 2 )]
 
-[node name="Timers" type="Node2D" parent="."]
+[node name="Timers" type="Node" parent="."]
 
 [node name="10SecTimer" type="Timer" parent="Timers"]
 wait_time = 10.0
