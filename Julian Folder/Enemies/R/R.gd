@@ -1,10 +1,9 @@
 extends KinematicBody2D
 
 signal in_game
-signal attack
 signal dead
 
-export (int)   var health : int = 2
+export (int)   var health : int = 1
 export (int)   var attack_amount : int = 1
 export (int)   var movement_speed : int = 3500
 export (int)   var path_movement_speed : int = 3500
@@ -165,7 +164,7 @@ func _on_DespawnTimer_timeout() -> void:
 func _on_AttackTimer_timeout() -> void:
 	self.can_attack = true
 
-func _on_AnimationPlayer_animation_finished(anim_name : String):
+func _on_AnimationPlayer_animation_finished(_anim_name : String) -> void:
 	if self.attacking:
 		self.attacking = false
 

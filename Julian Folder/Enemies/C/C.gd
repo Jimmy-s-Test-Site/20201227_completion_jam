@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 signal in_game
-signal attack
+signal dead
 
 export (Vector2) var direction := Vector2.UP
 
