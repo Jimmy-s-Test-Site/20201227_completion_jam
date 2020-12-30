@@ -18,7 +18,7 @@ var is_path2D_loaded := false
 
 var alive := true
 var attacking := false
-var can_attack := false
+var can_attack := true
 
 var Player : KinematicBody2D
 var player_is_alive := true
@@ -113,24 +113,24 @@ func receive_damage() -> void:
 #			if self.health < 0: self.health = 0
 
 func attack_manager() -> void:
-	pass
-#	if self.attacking and self.can_attack:
-#		self.emit_signal("attack")
-#		$AttackTimer.start(self.attack_cooldown_time)
-#		self.can_attack = false
-#		self.attacking = false
+	#print(self.attacking, " ", self.can_attack)
+	if self.attacking and self.can_attack:
+		self.emit_signal("attack")
+		$AttackArea/CollisionShape2D.disabled = false
+		$AttackTimer.start(self.attack_cooldown_time)
+		self.can_attack = false
+		self.attacking = false
 
 func death_manager() -> void:
-	pass
-#	if self.health == 0:
-#		self.emit_signal("dead")
-#
-#		$AttackArea.set_process(false)
-#		$AttackArea.set_physics_process(false)
-#
-#		$DespawnTimer.start(self.despawn_time)
-#
-#		self.alive = false
+	if self.health == 0:
+		self.emit_signal("dead")
+
+		$AttackArea.set_process(false)
+		$AttackArea.set_physics_process(false)
+
+		$DespawnTimer.start(self.despawn_time)
+
+		self.alive = false
 
 func animation_manager() -> void:
 	if not self.alive:
@@ -141,25 +141,27 @@ func animation_manager() -> void:
 	else:
 		$AnimationPlayer.play("Walk")
 
-#func _on_AttackArea_body_entered(body : Node) -> void:
-#	if body.name == "Player":
-#		self.attacking = true
+func _on_AttackArea_body_entered(body : Node) -> void:
+	print(body.name)
+	if body.name == "PlayerBody":
+		self.attacking = true
 
 func _on_DespawnTimer_timeout() -> void:
 	self.queue_free()
 
-#func _on_AttackTimer_timeout() -> void:
-#	self.can_attack = true
+func _on_AttackTimer_timeout() -> void:
+	$AttackArea/CollisionShape2D.disabled = true
+	self.can_attack = true
 
 
 func _on_BodyArea_area_entered(area):
 	print("hey man")
-	for i in self.get_slide_count():
-		var collision = self.get_slide_collision(i)
+#	for i in self.get_slide_count():
+#		var collision = self.get_slide_collision(i)
+#
+#		if collision.collider.get_parent().get_parent().name == "Player":
+	print("received damage")
+	$SFX/GotHitSound.play()
 
-		if collision.collider.get_parent().name == "Player":
-			print("received damage")
-			$SFX/GotHitSound.play()
-
-			self.health -= 1
-			if self.health < 0: self.health = 0
+	self.health -= 1
+	if self.health < 0: self.health = 0
