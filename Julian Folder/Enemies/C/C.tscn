@@ -7,6 +7,8 @@
 [ext_resource path="res://Julian Folder/Sprites/light.jpg" type="Texture" id=5]
 
 
+
+
 [sub_resource type="Animation" id=1]
 resource_name = "Down"
 length = 0.5

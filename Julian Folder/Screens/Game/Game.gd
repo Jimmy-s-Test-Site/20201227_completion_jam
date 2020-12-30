@@ -23,6 +23,29 @@ var total_enemies = 0
 
 var level = 1
 
+func enemies_from_level(level : int) -> Dictionary:
+	var levels_start_at = 1
+	
+	if level ==  5: return { "N": 0, "R": 0, "C":  8 }
+	if level == 10: return { "N": 0, "R": 0, "C": 16 }
+	
+	if level <= 10:
+		var offset = level - ( 0 + levels_start_at)
+		
+		return {
+			"N": 2 * offset +  6,
+			"R": 2 * offset +  0,
+			"C": 1 * offset +  0
+		}
+	else:
+		var offset = level - (10 + levels_start_at)
+		
+		return {
+			"N": 2 * offset + 24,
+			"R": 2 * offset + 18,
+			"C": 1 * offset +  1
+		}
+
 func _ready() -> void:
 	$Player/Camera2D.current = false
 	
