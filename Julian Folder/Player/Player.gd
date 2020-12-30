@@ -42,6 +42,14 @@ var input = {
 
 var motion = Vector2.ZERO
 
+func reset():
+	self.rng.randomize()
+	
+	self.emit_signal("new_hp", self.health)
+	#self.animation_mode.travel("idle")
+	
+	$AttackTimer.start(self.attack_cooldown)
+
 func _ready() -> void:
 	self.reset()
 
@@ -170,11 +178,3 @@ func _on_AnimationPlayer_animation_finished(anim_name : String) -> void:
 	
 	if self.healing:
 		self.healing = false
-
-func reset():
-	self.rng.randomize()
-	
-	#self.animation_mode.travel("idle")
-	
-	$AttackTimer.start(self.attack_cooldown)
-

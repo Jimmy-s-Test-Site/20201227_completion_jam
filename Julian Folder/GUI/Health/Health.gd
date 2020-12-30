@@ -31,5 +31,6 @@ func _on_Player_can_heal(new_health_value : bool) -> void:
 func on_Game_changed_health(new_health : int):
 	self.health = new_health
 	
-	for i in self.health_indicators.size():
-		self.health_indicators[i].visible = i <= self.health - 1
+	if self.health_indicators != null:
+		for i in range(self.health_indicators.size()):
+			self.health_indicators[i].visible = i <= self.health - 1

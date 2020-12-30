@@ -139,28 +139,36 @@ func instance_enemies(n : int, r : int, c : int) -> void:
 	
 	self.enemy_instances[randi() % self.enemy_instances.size()]
 	
-	var half_of_enemies = int(ceil(float(self.enemy_instances.size()) / 2))
+	#var half_of_enemies = int(ceil(float(self.enemy_instances.size()) / 2))
+	#
+	## split array into 2
+	#
+	#var enemies_to_instance := []
+	#for i in range(0, half_of_enemies): enemies_to_instance.append(self.enemy_instances[i])
+	#
+	#var enemies_for_later := []
+	#for i in range(half_of_enemies, self.enemy_instances.size()): enemies_for_later.append(self.enemy_instances[i])
+	#
+	## actually instance them
+	#
+	#for i in range(enemies_to_instance.size()):
+	#	$Timers/EnemySpawnCooldown.start(self.enemy_spawn_cooldown)
+	#	yield($Timers/EnemySpawnCooldown, "timeout")
+	#	
+	#	$Enemies.add_child(enemies_to_instance[i])
+	#	
+	#	enemies_to_instance[i].connect("dead", self, "on_enemy_died")
 	
-	# split array into 2
-	
-	var enemies_to_instance := []
-	for i in range(0, half_of_enemies): enemies_to_instance.append(self.enemy_instances[i])
-	
-	var enemies_for_later := []
-	for i in range(half_of_enemies, self.enemy_instances.size()): enemies_for_later.append(self.enemy_instances[i])
-	
-	# actually instance them
-	
-	for i in range(enemies_to_instance.size()):
+	for i in range(self.enemy_instances.size()):
 		$Timers/EnemySpawnCooldown.start(self.enemy_spawn_cooldown)
 		yield($Timers/EnemySpawnCooldown, "timeout")
 		
-		$Enemies.add_child(enemies_to_instance[i])
+		$Enemies.add_child(self.enemy_instances[i])
 		
-		enemies_to_instance[i].connect("dead", self, "on_enemy_died")
+		self.enemy_instances[i].connect("dead", self, "on_enemy_died")
 	
-	self.enemy_instances = enemies_for_later
-	self.second_wave_threshold = self.enemy_instances.size()
+	#self.enemy_instances = enemies_for_later
+	#self.second_wave_threshold = self.enemy_instances.size()
 
 func start_level(level : int):
 	$CanvasLayer/Countdown.visible = true
@@ -175,47 +183,51 @@ func start_level(level : int):
 		planned_enemies.C
 	)
 	
-	# starting the second wave timer
-	$Timers/SecondWaveTimer.start(self.second_wave_timeout)
+	## starting the second wave timer
+	#$Timers/SecondWaveTimer.start(self.second_wave_timeout)
 
 func _physics_process(delta : float) -> void:
 	pass
 
-func second_wave() -> void:
-	for i in range(self.enemy_instances.size()):
-		yield(self.get_tree().create_timer(self.enemy_spawn_cooldown), "timeout")
-		
-		$Enemies.add_child(self.enemy_instances[i])
-		
-		self.enemy_instances[i].connect("dead", self, "on_enemy_died")
-	
-	self.enemy_instances = []
-	
-	self.finished_instancing_every_enemy = true
+#func second_wave() -> void:
+#	print("second wave!")
+#
+#	for i in range(self.enemy_instances.size()):
+#		yield(self.get_tree().create_timer(self.enemy_spawn_cooldown), "timeout")
+#
+#		$Enemies.add_child(self.enemy_instances[i])
+#
+#		self.enemy_instances[i].connect("dead", self, "on_enemy_died")
+#
+#	self.enemy_instances = []
+#
+#	self.finished_instancing_every_enemy = true
 
 func _on_SecondWaveTimer_timeout():
-	if not self.started_new_wave:
-		self.started_new_wave = true
-		
-		self.second_wave()
+	pass
+#	print(self.started_new_wave)
+#	if not self.started_new_wave:
+#		print("from timer")
+#		self.started_new_wave = true
+#
+#		self.second_wave()
 
 func _on_Player_dead():
 	self.emit_signal("game_over", self.level)
 
 func on_enemy_died() -> void:
-	print(self.total_enemies, " ", self.enemy_instances.size())
-	
-	
 	self.total_enemies -= 1
 	$CanvasLayer/Enemies/Label.text = str(self.total_enemies)
 	
-	if not self.started_new_wave:
-		if self.total_enemies <= self.second_wave_threshold:
-			self.started_new_wave = true
-			
-			self.second_wave()
+	#print(self.started_new_wave)
+	#if not self.started_new_wave:
+	#	if self.total_enemies <= self.second_wave_threshold:
+	#		print("from enemies")
+	#		self.started_new_wave = true
+	#		
+	#		self.second_wave()
 	
-	if total_enemies == 0:
+	if total_enemies <= 0:
 		self.level += 1
 		
 		$Timers/InBetweenLevelsTimer.start(self.in_between_levels_timeout)
