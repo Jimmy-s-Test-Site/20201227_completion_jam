@@ -41,8 +41,6 @@ func enemies_from_level(level : int) -> Dictionary:
 	var total_R : int = total_enemies * self.r_ratio
 	var total_C : int = clamp(total_enemies * self.c_ratio, 0, 5)
 	
-	print(total_N + total_R + total_C)
-	
 	return {
 		"N": total_N,
 		"R": total_R,
