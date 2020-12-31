@@ -15,9 +15,9 @@ export (float) var enemy_spawn_cooldown : float = 0.5
 export (float) var second_wave_timeout : float = 10.0
 export (float) var in_between_levels_timeout : float = 1.5
 
-export (float) var n_ratio = 0.0#55
-export (float) var r_ratio = 0.0#35
-export (float) var c_ratio = 0.5
+export (float) var n_ratio = 0.55
+export (float) var r_ratio = 0.4
+export (float) var c_ratio = 0.05
 
 var ns_to_spawn : int = 0
 var rs_to_spawn : int = 0
@@ -40,6 +40,8 @@ func enemies_from_level(level : int) -> Dictionary:
 	var total_N : int = total_enemies * self.n_ratio
 	var total_R : int = total_enemies * self.r_ratio
 	var total_C : int = clamp(total_enemies * self.c_ratio, 0, 5)
+	
+	print(total_N + total_R + total_C)
 	
 	return {
 		"N": total_N,
@@ -118,10 +120,8 @@ func instance_c(number : int) -> Array:
 			match spawn_idx:
 				0: new_c.direction = Vector2.RIGHT
 				1: new_c.direction = Vector2.DOWN
-				2: new_c.direction = Vector2.RIGHT
-				3: new_c.direction = Vector2.RIGHT
-			
-			new_c
+				2: new_c.direction = Vector2.LEFT
+				3: new_c.direction = Vector2.UP
 			
 			enemy_instances.append(new_c)
 	

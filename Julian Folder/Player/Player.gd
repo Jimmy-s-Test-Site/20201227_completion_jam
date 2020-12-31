@@ -203,7 +203,7 @@ func on_enemy_attack(enemy) -> void:
 				
 				if self.health < 0:
 					self.health = 0
-				else:
-					self.emit_signal("new_hp", self.health)
-					
-					self.receiving_damage = true
+				
+				self.emit_signal("new_hp", self.health)
+				
+				self.receiving_damage = true

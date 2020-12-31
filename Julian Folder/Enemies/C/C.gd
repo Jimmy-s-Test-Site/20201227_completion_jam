@@ -7,7 +7,7 @@ signal dead
 export (Vector2) var direction := Vector2.UP
 
 export (int)     var health : int = 4
-export (int)     var attack : int = 4
+export (int)     var attack_amount : int = 4
 export (int)     var max_path_movement_speed : int = 3500
 
 onready var total_health = self.health
