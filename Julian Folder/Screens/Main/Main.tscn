@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Julian Folder/Screens/Start/Start.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Julian Folder/Screens/Main/Main.gd" type="Script" id=2]
 [ext_resource path="res://Julian Folder/Screens/Game/Game.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Julian Folder/Screens/Death/Death Screen.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Julian Folder/GUI/Sound/Mute.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Julian Folder/Audio/isthisgood.wav" type="AudioStream" id=6]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 2 )
@@ -24,6 +25,9 @@ margin_left = 1.32065
 margin_top = 0.0370178
 margin_right = 1.32065
 margin_bottom = 0.0370178
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
 [connection signal="start" from="Start" to="." method="_on_Start_start"]
 [connection signal="game_over" from="Game" to="." method="_on_Game_game_over"]
 [connection signal="startAgain" from="CanvasLayer/Death Screen" to="." method="_on_Death_Screen_startAgain"]

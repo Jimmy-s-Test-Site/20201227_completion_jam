@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 signal in_game
+signal attack
 signal dead
 
 export (Vector2) var direction := Vector2.UP
@@ -52,10 +53,9 @@ func _physics_process(delta : float) -> void:
 		self.attack_manager()
 		self.death_manager()
 		self.animation_manager()
+		self.audio_manager()
 
 func movement_manager(delta : float) -> void:
-	if not $SFX/Siren.playing:
-		$SFX/Siren.play()
 	self.follow_path(delta)
 
 func follow_path(delta : float) -> void:
@@ -115,6 +115,10 @@ func animation_manager():
 		Vector2.RIGHT : $AnimationPlayer.play("Right")
 		Vector2.UP    : $AnimationPlayer.play("Up")
 		Vector2.DOWN  : $AnimationPlayer.play("Down")
+
+func audio_manager():
+	if not $SFX/Siren.playing:
+		$SFX/Siren.play()
 
 func _on_DespawnTimer_timeout() -> void:
 	self.queue_free()

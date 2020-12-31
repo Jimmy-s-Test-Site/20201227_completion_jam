@@ -1,5 +1,10 @@
 extends Node2D
 
+var input = {
+	"toggle_mute": false,
+	"quit": false
+}
+
 func _ready() -> void:
 	$Start.set_process(true)
 	$Game.set_process(false)
@@ -10,11 +15,23 @@ func _ready() -> void:
 	$"CanvasLayer/Death Screen".set_physics_process(false)
 
 func _process(delta : float) -> void:
-	if Input.is_action_just_pressed("mute"):
-		$Mute.toggle_mute_all()
+	self.input_manager()
+	self.audio_manager()
+	self.game_over_manager()
+
+func input_manager():
+	self.input.toggle_mute = Input.is_action_just_pressed("mute")
+	self.input.quit = Input.is_action_just_pressed("quit")
+
+func audio_manager():
+	if not $AudioStreamPlayer.playing:
+		$AudioStreamPlayer.play()
 	
-	if Input.is_action_just_pressed("quit"):
-		# simulate game over
+	if self.input.toggle_mute:
+		$Mute.toggle_mute_all()
+
+func game_over_manager():
+	if self.input.quit:
 		self._on_Game_game_over($Game.level)
 
 func _on_Start_start():
