@@ -24,6 +24,7 @@ var rs_to_spawn : int = 0
 var cs_to_spawn : int = 0
 
 var enemy_instances : Array = []
+var R_instances_in_game : Array = []
 var total_enemies = 0
 
 var started_new_wave = false
@@ -132,6 +133,12 @@ func instance_enemies(n : int, r : int, c : int) -> void:
 	
 	self.enemy_instances = n_instances + r_instances + c_instances
 	
+	self.R_instances_in_game = r_instances
+	
+	for r_instance in self.R_instances_in_game:
+		for r_other_instance in self.R_instances_in_game:
+			r_instance.R_instances.append(r_other_instance)
+	
 	self.total_enemies = self.enemy_instances.size()
 	$CanvasLayer/Enemies/Label.text = str(self.total_enemies)
 	
@@ -162,6 +169,7 @@ func start_level(level : int):
 			planned_enemies.R,
 			planned_enemies.C
 		)
+		
 	else:
 		self.next_level()
 
@@ -182,9 +190,15 @@ func _on_SecondWaveTimer_timeout():
 func _on_Player_dead():
 	self.emit_signal("game_over", self.level)
 
-func on_enemy_died() -> void:
+func on_enemy_died(enemy_name : String) -> void:
 	self.total_enemies -= 1
 	$CanvasLayer/Enemies/Label.text = str(self.total_enemies)
+	
+	if name.begins_with("R"):
+		for r_enemy in self.R_instances_in_game.size():
+			if r_enemy.name != enemy_name:
+				for r_other_instance in self.R_instances_in_game:
+					r_enemy.R_instances.apend(r_other_instance)
 	
 	if total_enemies <= 0:
 		self.next_level()

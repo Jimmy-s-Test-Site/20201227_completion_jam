@@ -31,7 +31,7 @@ var path_points : PoolVector2Array
 var prev_path_index : int = 0
 var curr_path_index : int = 0
 
-var R_positions : PoolVector2Array
+var R_instances : Array = []
 
 func player_exists() -> bool: return self.Player != null
 
@@ -86,11 +86,20 @@ func follow_path(delta : float) -> void:
 	self.move_and_slide(movement)
 
 func move(delta : float) -> void:
-	var Rs_and_player_mean_position := self.Player.global_position
-	for i in self.R_positions.size(): Rs_and_player_mean_position += self.R_positions[i]
-	Rs_and_player_mean_position /= 1 + self.R_positions.size()
-	
-	var objective : Vector2 = self.Player.global_position
+	var objective : Vector2
+	if self.name.begins_with("R"):
+		var Rs_and_player_mean_position := self.Player.global_position
+		
+		for r_instance in self.R_instances:
+			Rs_and_player_mean_position += r_instance.global_position
+		
+		Rs_and_player_mean_position /= 1 + self.R_instances.size()
+		
+		#objective = self.Player.global_position
+		objective = Rs_and_player_mean_position
+		#print(self.Player.global_position == objective)
+	elif self.name.begins_with("N"):
+		objective = self.Player.global_position
 	
 	# TODO:
 	# make AI only move forwards, and rotate at set speed
@@ -131,7 +140,7 @@ func attack_manager() -> void:
 
 func death_manager() -> void:
 	if self.health == 0:
-		self.emit_signal("dead")
+		self.emit_signal("dead", self.name)
 		
 		$AttackArea.set_process(false)
 		$AttackArea.set_physics_process(false)

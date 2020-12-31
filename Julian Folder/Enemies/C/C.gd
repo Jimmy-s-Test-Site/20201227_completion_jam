@@ -103,7 +103,7 @@ func death_manager() -> void:
 	
 	if self.health == 0 or on_last_index and self.alive:
 		self.alive = false
-		self.emit_signal("dead")
+		self.emit_signal("dead", self.name)
 		
 		yield(self.get_tree().create_timer(1.5), "timeout")
 		
