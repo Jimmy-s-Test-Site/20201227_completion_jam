@@ -25,7 +25,7 @@ func _on_Start_start():
 	
 	$Game/CanvasLayer/Health.visible = true
 	$Game/CanvasLayer/Enemies.visible = true
-	$Game/Player/Camera2D.current = true
+	#$Game/Player/Camera2D.current = true
 	
 	$Game/Player.reset()
 	

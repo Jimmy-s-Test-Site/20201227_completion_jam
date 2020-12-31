@@ -13,7 +13,6 @@
 [sub_resource type="Animation" id=1]
 resource_name = "Down"
 length = 0.5
-loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -93,7 +92,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0.1 ),
+"times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 7, 16 ) ]
@@ -150,7 +149,6 @@ tracks/10/keys = {
 [sub_resource type="Animation" id=2]
 resource_name = "Left"
 length = 0.5
-loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -230,7 +228,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0.1 ),
+"times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 16, 7 ) ]
@@ -287,7 +285,6 @@ tracks/10/keys = {
 [sub_resource type="Animation" id=3]
 resource_name = "Right"
 length = 0.5
-loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -367,7 +364,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0.1 ),
+"times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 16, 7 ) ]
@@ -424,7 +421,6 @@ tracks/10/keys = {
 [sub_resource type="Animation" id=4]
 resource_name = "Up"
 length = 0.5
-loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -504,7 +500,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0.1 ),
+"times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 7, 16 ) ]
@@ -576,7 +572,7 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 vframes = 2
 hframes = 6
-frame = 1
+frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Down = SubResource( 1 )
@@ -597,7 +593,7 @@ shape = SubResource( 6 )
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2( 0, 18 )
+position = Vector2( 0, -18 )
 shape = SubResource( 7 )
 
 [node name="SFX" type="Node2D" parent="."]
@@ -629,12 +625,14 @@ stream = ExtResource( 4 )
 [node name="DespawnTimer" type="Timer" parent="."]
 
 [node name="Light2D" type="Light2D" parent="."]
-position = Vector2( -6, 29 )
+position = Vector2( -6, -29 )
+rotation = 3.14159
 scale = Vector2( 0.00644237, 0.0190068 )
 texture = ExtResource( 10 )
 
 [node name="Light2D2" type="Light2D" parent="."]
-position = Vector2( 6, 29 )
+position = Vector2( 6, -29 )
+rotation = 3.14159
 scale = Vector2( 0.00644237, 0.0190068 )
 texture = ExtResource( 10 )
 [connection signal="body_entered" from="AttackArea" to="." method="_on_AttackArea_body_entered"]

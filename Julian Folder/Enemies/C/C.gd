@@ -17,6 +17,7 @@ onready var path_movement_speed : int = self.max_path_movement_speed
 var path2D
 var is_path2D_loaded := false
 
+var attacking := false
 var alive := true
 var receiving_damage := false
 var player_is_attacking := false
@@ -32,11 +33,7 @@ var curr_path_index : int = 0
 func player_exists() -> bool: return self.Player != null
 
 func _ready() -> void:
-	match self.direction:
-		Vector2.LEFT  : $AnimationPlayer.play("Left")
-		Vector2.RIGHT : $AnimationPlayer.play("Right")
-		Vector2.UP    : $AnimationPlayer.play("Up")
-		Vector2.DOWN  : $AnimationPlayer.play("Down")
+	pass
 
 func needs_to_load_path2D() -> bool:
 	return not self.is_path2D_loaded and self.path2D
@@ -54,9 +51,11 @@ func _physics_process(delta : float) -> void:
 		self.receive_damage()
 		self.attack_manager()
 		self.death_manager()
+		self.animation_manager()
 
 func movement_manager(delta : float) -> void:
-	$SFX/Siren.play()
+	if not $SFX/Siren.playing:
+		$SFX/Siren.play()
 	self.follow_path(delta)
 
 func follow_path(delta : float) -> void:
@@ -76,7 +75,7 @@ func receive_damage() -> void:
 	self.receiving_damage = false
 	
 	for area in $BodyArea.get_overlapping_areas():
-		if area.get_parent().name == "Player":
+		if area.get_parent().name == "Player" or area.get_parent().name.begins_with("C"):
 			if not area.get_parent().is_connected("attack", self, "on_player_attack"):
 				area.get_parent().connect("attack", self, "on_player_attack")
 			
@@ -95,13 +94,27 @@ func receive_damage() -> void:
 	# TODO: set speed to (health / total health) * speed
 
 func attack_manager() -> void:
-	self.emit_signal("attack", self)
+	if self.attacking:
+		self.emit_signal("attack", self)
+		self.attacking = false
 
 func death_manager() -> void:
 	var on_last_index := self.prev_path_index != 0 and self.curr_path_index == 0
 	
-	if self.health == 0 or on_last_index:
+	if self.health == 0 or on_last_index and self.alive:
+		self.alive = false
+		self.emit_signal("dead")
+		
+		yield(self.get_tree().create_timer(1.5), "timeout")
+		
 		self.queue_free()
+
+func animation_manager():
+	match self.direction:
+		Vector2.LEFT  : $AnimationPlayer.play("Left")
+		Vector2.RIGHT : $AnimationPlayer.play("Right")
+		Vector2.UP    : $AnimationPlayer.play("Up")
+		Vector2.DOWN  : $AnimationPlayer.play("Down")
 
 func _on_DespawnTimer_timeout() -> void:
 	self.queue_free()

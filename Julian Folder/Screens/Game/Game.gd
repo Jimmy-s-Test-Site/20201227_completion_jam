@@ -15,9 +15,9 @@ export (float) var enemy_spawn_cooldown : float = 0.5
 export (float) var second_wave_timeout : float = 10.0
 export (float) var in_between_levels_timeout : float = 1.5
 
-export (float) var n_ratio = 0.55
-export (float) var r_ratio = 0.35
-export (float) var c_ratio = 0.0#0.1
+export (float) var n_ratio = 0.0#55
+export (float) var r_ratio = 0.0#35
+export (float) var c_ratio = 0.5
 
 var ns_to_spawn : int = 0
 var rs_to_spawn : int = 0
@@ -37,10 +37,15 @@ func enemies_from_level(level : int) -> Dictionary:
 	
 	var total_enemies : int = int(floor(15 * (log(level+3)/log(2)) + cos(level) * 7 * log(level)))
 	
+	var total_N : int = total_enemies * self.n_ratio
+	var total_R : int = total_enemies * self.r_ratio
+	var total_C : int = clamp(total_enemies * self.c_ratio, 0, 5)
+	
 	return {
-		"N": total_enemies * self.n_ratio,
-		"R": total_enemies * self.r_ratio,
-		"C": total_enemies * self.c_ratio
+		"N": total_N,
+		"R": total_R,
+		"C": total_C,
+		"total": total_N + total_R + total_C
 	}
 
 func _ready() -> void:
@@ -98,16 +103,25 @@ func instance_c(number : int) -> Array:
 	
 	if number > 0:
 		for n in range(number):
+			
 			var spawn_idx = randi() % ((
-				self.get_node(self.c_spawn_points_nodepaths).get_child_count() +
+				self.get_node(self.c_spawn_point_nodepaths).get_child_count() +
 				self.get_node(self.c_paths_nodepaths).get_child_count()
 			) / 2)
 			
-			var new_c = self.R_scene.instance()
+			var new_c = self.C_scene.instance()
 			new_c.name = new_c.name + String(n)
-			new_c.position = self.get_node(self.c_spawn_points_nodepaths).get_child(spawn_idx).position
+			new_c.position = self.get_node(self.c_spawn_point_nodepaths).get_child(spawn_idx).position
 			new_c.Player = $Player
 			new_c.path2D = self.get_node(self.c_paths_nodepaths).get_child(spawn_idx).get_path()
+			
+			match spawn_idx:
+				0: new_c.direction = Vector2.RIGHT
+				1: new_c.direction = Vector2.DOWN
+				2: new_c.direction = Vector2.RIGHT
+				3: new_c.direction = Vector2.RIGHT
+			
+			new_c
 			
 			enemy_instances.append(new_c)
 	
@@ -144,11 +158,22 @@ func start_level(level : int):
 	$Player.reset()
 	
 	var planned_enemies = self.enemies_from_level(level)
-	self.instance_enemies(
-		planned_enemies.N,
-		planned_enemies.R,
-		planned_enemies.C
-	)
+	if planned_enemies.total > 0:
+		self.instance_enemies(
+			planned_enemies.N,
+			planned_enemies.R,
+			planned_enemies.C
+		)
+	else:
+		self.next_level()
+
+func next_level():
+	self.level += 1
+	
+	$Timers/InBetweenLevelsTimer.start(self.in_between_levels_timeout)
+	yield($Timers/InBetweenLevelsTimer, "timeout")
+	
+	self.start_level(self.level)
 
 func _physics_process(delta : float) -> void:
 	pass
@@ -164,11 +189,4 @@ func on_enemy_died() -> void:
 	$CanvasLayer/Enemies/Label.text = str(self.total_enemies)
 	
 	if total_enemies <= 0:
-		self.level += 1
-		
-		$Timers/InBetweenLevelsTimer.start(self.in_between_levels_timeout)
-		yield($Timers/InBetweenLevelsTimer, "timeout")
-		
-		self.started_new_wave = false
-		
-		self.start_level(self.level)
+		self.next_level()
