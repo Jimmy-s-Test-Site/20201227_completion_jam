@@ -15,13 +15,9 @@ export (float) var enemy_spawn_cooldown : float = 0.5
 export (float) var second_wave_timeout : float = 10.0
 export (float) var in_between_levels_timeout : float = 1.5
 
-export (int) var initial_ns_to_spawn : int = 10
-export (int) var initial_rs_to_spawn : int =  0
-export (int) var initial_cs_to_spawn : int =  0
-
 export (float) var n_ratio = 0.55
 export (float) var r_ratio = 0.35
-export (float) var c_ratio = 0.0# 0.1
+export (float) var c_ratio = 0.0#0.1
 
 var ns_to_spawn : int = 0
 var rs_to_spawn : int = 0

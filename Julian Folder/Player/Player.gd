@@ -146,9 +146,11 @@ func health_manager() -> void:
 
 func death_manager() -> void:
 	if self.health == 0:
-		self.emit_signal("dead")
-		
 		self.alive = false
+		
+		yield(self.get_tree().create_timer(2.0), "timeout")
+		
+		self.emit_signal("dead")
 
 func animation_manager() -> void:
 	if self.alive:
