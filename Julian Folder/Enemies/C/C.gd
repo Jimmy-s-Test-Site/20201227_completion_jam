@@ -95,6 +95,7 @@ func receive_damage() -> void:
 
 func attack_manager() -> void:
 	if self.attacking:
+		yield(self.get_tree().create_timer(0.1), "timeout")
 		self.emit_signal("attack", self)
 		self.attacking = false
 
@@ -104,8 +105,6 @@ func death_manager() -> void:
 	if self.health == 0 or on_last_index and self.alive:
 		self.alive = false
 		self.emit_signal("dead", self.name)
-		
-		yield(self.get_tree().create_timer(1.5), "timeout")
 		
 		self.queue_free()
 

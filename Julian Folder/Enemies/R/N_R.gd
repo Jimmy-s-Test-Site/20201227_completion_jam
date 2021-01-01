@@ -27,7 +27,7 @@ var Player : KinematicBody2D
 var player_is_alive := true
 
 var following_path := true
-var path_points : PoolVector2Array
+var path_points : PoolVector2Array = PoolVector2Array([])
 var prev_path_index : int = 0
 var curr_path_index : int = 0
 
@@ -88,19 +88,19 @@ func follow_path(delta : float) -> void:
 func move(delta : float) -> void:
 	var objective : Vector2
 	if self.name.begins_with("R"):
-		var Rs_and_player_mean_position := self.Player.global_position
+		var player_weight : float = 1.5
+		
+		var Rs_and_player_mean_position := player_weight * self.Player.global_position
 		
 		for r_instance in self.R_instances:
-			Rs_and_player_mean_position += r_instance.global_position
+			Rs_and_player_mean_position += r_instance.position
 		
-		Rs_and_player_mean_position /= 1 + self.R_instances.size()
+		Rs_and_player_mean_position /= self.R_instances.size() + 1
 		
-		#objective = self.Player.global_position
 		objective = Rs_and_player_mean_position
-		#print(self.Player.global_position == objective)
 	elif self.name.begins_with("N"):
 		objective = self.Player.global_position
-	
+	objective = self.Player.global_position
 	# TODO:
 	# make AI only move forwards, and rotate at set speed
 	
@@ -115,7 +115,8 @@ func receive_damage() -> void:
 	self.receiving_damage = false
 	
 	for area in $BodyArea.get_overlapping_areas():
-		if area.get_parent().name == "Player":
+		print(area.name)
+		if area.get_parent().name == "Player" or area.get_parent().name.begins_with("C"):
 			if not area.get_parent().is_connected("attack", self, "on_player_attack"):
 				area.get_parent().connect("attack", self, "on_player_attack")
 			

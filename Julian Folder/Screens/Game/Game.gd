@@ -143,8 +143,7 @@ func instance_enemies(n : int, r : int, c : int) -> void:
 	$CanvasLayer/Enemies/Label.text = str(self.total_enemies)
 	
 	randomize()
-	
-	self.enemy_instances[randi() % self.enemy_instances.size()]
+	self.enemy_instances.shuffle()
 	
 	for i in range(self.enemy_instances.size()):
 		$Timers/EnemySpawnCooldown.start(self.enemy_spawn_cooldown)
