@@ -34,8 +34,10 @@ This game was made for the Completion Game Jam where the theme was "Out Of Place
 
 ## Credits
 
-art: Jaackotorus, Feguinn, Pearacite
+programming: jaacko-torus, fenguinn
 
-music & sfx: Pearacite
+art: jaackotorus, feguinn, pearacite
+
+music & sfx: pearacite
 
 font: https://arcade.itch.io/newsgeek
